@@ -76,6 +76,12 @@ Deployment or configuration modes that change behavior — production vs simulat
 flags that alter a flow, defaults that differ per environment. Behavior-affecting
 variants only; this is not an ops runbook. Omit the section when there are none.
 
+## Testing posture
+
+Optional. What actually gates this part/flow in CI versus what is skipped, quarantined,
+or main-push-gated — as fact, not aspiration. Include when the gap between apparent and
+real coverage would surprise a reader.
+
 ## Invariants
 
 Numbered MUST / MUST NEVER statements — the checkable properties a reimplementation has
