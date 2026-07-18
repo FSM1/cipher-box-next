@@ -520,7 +520,9 @@ liveness (the other spec) is on the critical path of the recovery story.
   found in the API (`renewIpnsRecordEol` only touches enrolled rows). The window is
   untested: e2e suites mint fresh vaults per run, and staging vaults were wiped at Phase
   62, so a >24 h-old vault login exercising this path may simply never have happened.
-  Flagging as an inferred-from-code defect, not an observed one.
+  Flagging as an inferred-from-code defect, since corroborated at runtime: the vault
+  owner reports (2026-07-18) being unable to view a vault created more than 24 h
+  earlier — consistent with exactly this fail-closed expiry.
 - **The root record is also un-enrolled at init** — web: "New users have no TEE
   enrollment yet — teeKeys stays undefined" (`useAuth.ts:220`); desktop: `None`
   (`vault.rs:362-363`). Root liveness then rides on ordinary mutation publishes (each
