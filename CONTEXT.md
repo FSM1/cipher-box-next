@@ -17,15 +17,15 @@ Glossary only. Implementation detail lives in `specs/`; decisions in issue resol
 - **History link** — the previous epoch's seed sealed under the current one; the key-regression ratchet. Current-seed holders walk backward to read not-yet-resealed nodes; old-seed holders can never walk forward.
 - **Lazy wave** — post-rotation re-sealing of a scope's descendants at the new epoch, carried by ordinary writes and/or a background sweep rather than an eager cascade.
 - **Epoch lag** — a node whose envelope epoch is behind its scope's current epoch; readable via history links, queued for the lazy wave. Replaces v1's "dirty edge".
-- **Eager set** — the nodes a rotation must republish before it counts as cut: the rotated scope root plus every descendant scope root carrying a live grant. Interior nodes ride the lazy wave.
+- **Eager set** — the nodes a revocation rotation must republish before it counts as cut: the rotated scope root plus every transitively-reachable descendant scope root, each fully rotated — the live-grant qualifier is retired, since a revokee may hold cached descendant seeds (grant-less scopes are cheap: an empty blob set). A grantee scope-exit rotation revokes nobody and stays flat. Interior nodes ride the lazy wave.
 - **Epoch-converged** — a subtree with no epoch-lagged nodes. Granting a subtree requires converging it first (a new grantee cannot regress through an ancestor scope's history).
 
 ## Write-plane key model
 
 - **Write seed** — the write plane's parallel derivation, flat within a write scope: `writeSeed(X) = KDF(writeScopeSeed, X.id)`. A node's Ed25519 IPNS keypair, its `ipnsName`, and its `writeKey` all derive from its write seed. Read grants carry read seeds only; write grants carry both.
 - **Write-scope cut** — granting write on an interior folder anchors a fresh write scope there: flat derivation means one node's write seed cannot derive its children's, so the grant mints a write scope seed and runs a name wave over the subtree.
-- **Name wave** — the background, child-first republish of a write-rotated scope under freshly derived names, root re-pointed last. Survivor write-grantees derive new names locally; read-only survivors follow republished mirrors (root via mailbox re-point).
-- **Forgery window** — accepted residual: during the name wave a revoked writer can still seal plausible old-epoch records at not-yet-rotated old names. Bounded by wave duration; old names retire from the republisher inventory (tombstones advisory only).
+- **Name wave** — the background, child-first republish of a write-rotated scope under freshly derived names, root re-pointed last. Survivor write-grantees derive new names locally; read-only survivors follow republished mirrors (root re-point via the scope pointer; mailbox and old-name tombstone as accelerators).
+- **Forgery window** — accepted residual: during the name wave a revoked writer can still seal plausible old-epoch records at not-yet-rotated old names. Wave-bounded for write-grantee survivors (they derive every new name locally); for read-only survivors, at most ~one pointer-consult interval past the re-point publish (a sync-timing-profile constant). Old names retire from the republisher inventory (tombstones advisory only).
 
 ## Envelope and grants
 
