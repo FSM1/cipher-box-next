@@ -56,6 +56,14 @@ Glossary only. Implementation detail lives in `specs/`; decisions in issue resol
 - **Dead-letter** — a queued op that terminally fails rebase, surfaced to the user with any staged content preserved rather than silently dropped.
 - **Withheld-update escalation** — the shared-scope warning raised when a name stays pinned past a profile window while other resolves succeed; the reader-side signal for a stale-view pin.
 
+## Core crate
+
+- **KDF edge catalog** — the frozen enumeration of every key-derivation edge (context string + input layout) in `crates/core`; nothing derives a key outside it. Per-node material is `keyed_hash(key = derive_key("<edge context>", seed), message = id16)` — ids are fixed-length message input, never variable context.
+- **Structure tag** — the domain-separation registry entry naming each sealed/signed structure (read-body, write-body, grant-blob, owner-blob, ascent-link, history-link, pointer-payload, mailbox-payload); bound into the AAD and the structure-signature preimage.
+- **KAT manifest** — the machine-checked enumeration of every frozen encoding and the vector files locking each; tests and CI consume it, so the KAT'd surface is auditable rather than folklore.
+- **Acceptance domain** — the part of the frozen contract covering what a codec rejects: reject-vectors (duplicate keys, non-canonical encodings, transplants, bad signatures) ship alongside accept-vectors from day one.
+- **Separation KAT** — the mechanical assertion that no two KDF edges produce equal output for equal inputs, run over the whole edge table.
+
 ## API residual surface
 
 - **Name inventory** — the per-account `(account, ipnsName)` registry feeding the republisher. Membership derives from pin registration on the publish path, never from a side-channel.
