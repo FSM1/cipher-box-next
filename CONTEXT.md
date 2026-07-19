@@ -49,3 +49,15 @@ Glossary only. Implementation detail lives in `specs/`; decisions in issue resol
 - **Dual-link** — one child linked in two parents, the benign crash residue of a dest-first move; repaired deterministically via the child ref's monotonic link counter.
 - **Dead-letter** — a queued op that terminally fails rebase, surfaced to the user with any staged content preserved rather than silently dropped.
 - **Withheld-update escalation** — the shared-scope warning raised when a name stays pinned past a profile window while other resolves succeed; the reader-side signal for a stale-view pin.
+
+## API residual surface
+
+- **Name inventory** — the per-account `(account, ipnsName)` registry feeding the republisher. Membership derives from pin registration on the publish path, never from a side-channel.
+- **Register-first** — the fail-closed ordering law: a name/CID batch registers before its first publish, and publish blocks on it. Live-but-uninventoried is structurally impossible; the residual failure is a registered-never-published orphan, alert-GC'd.
+- **Union liveness** — a name stays in the republish inventory while any account holds a row for it; it leaves when the last row retires. Physical unpin fires at global refcount zero.
+- **Advisory pin row** — a BYO account's registration: counted for union liveness and the inventory, never quota-enforced; the bytes live on the user's own provider.
+- **Root linger** — after a write rotation, the old scope-root name stays registered serving the owner-signed `movedTo` record until the migration window closes; interior old names retire at wave completion.
+- **Read accelerator** — CipherBox's token-authed Kubo trustless gateway. A member convenience on the read path; any public trustless gateway is the no-auth fallback.
+- **Recovery endpoint** — authenticated fetch of non-canonical cached record bytes by name; the revival aid after a >EOL liveness lapse, on no client resolve path.
+- **Contact code** — the self-authenticating bundle `{identityPk, encSubkey, bindingSig}` exchanged out-of-band (QR/URL); binding verification at import is mandatory and fail-closed. Replaces any people directory.
+- **Mailbox** — the API's integrity-untrusted sealed-pointer transport: post to a recipient pubkey, poll, ack-deletes; bounded until-acked retention. Carries discovery and courtesy traffic only, nothing load-bearing for safety.
