@@ -36,3 +36,16 @@ Glossary only. Implementation detail lives in `specs/`; decisions in issue resol
 - **Grant-set commitment** — the owner-signed `(tag, permission)` list in the scope root's envelope. Recipients verify their tag is committed before trusting a grant. Deliberately epoch-free, so grantee-triggered rotation needs no owner signature.
 - **Encryption subkey** — the sealing key each user derives from their login secret, published signed by their identity key. The identity key only signs; the subkey only seals.
 - **Vault pointer** — the stable IPNS name derived from the owner's login secret whose record points at the current vault root. The cold-boot entry point; root write rotation re-points it.
+
+## Sync and refresh
+
+- **Sync timing profile** — the environment-scoped bundle of sync timing policy: record TTL, poll cadence, staleness thresholds, offline staging budget, escalation window. Records always set TTL explicitly; TTL is independent of EOL.
+- **Focus window** — the set a poll tick refreshes: the vault pointer, the open folder, and its ancestor chain to root. Everything else refreshes on access.
+- **Pending-op overlay** — the client state law: rendered state is the last-known-good remote snapshot with queued ops applied on top; the op queue is the only local divergence.
+- **Op queue** — the durable FIFO journal of intent ops every mutation rides. Offline replay and online CAS rebase re-apply ops through the same path.
+- **Adoption gate** — the trust pipeline every resolved record passes before adoption: signature verify, strictly-newer sequence vs floor, epoch at or above the scope floor, unseal success. A failure is a fail-closed trust violation, never mere staleness.
+- **Conditional delete** — a delete op snapshots its target's own record sequence; on rebase it is dropped if the target advanced. Edit wins in both directions: a rebased edit resurrects a concurrently deleted node.
+- **Observed repair** — cleanup of an invariant violation noticed at read time by any write-capable client, e.g. removing the losing link of a dual-linked child.
+- **Dual-link** — one child linked in two parents, the benign crash residue of a dest-first move; repaired deterministically via the child ref's monotonic link counter.
+- **Dead-letter** — a queued op that terminally fails rebase, surfaced to the user with any staged content preserved rather than silently dropped.
+- **Withheld-update escalation** — the shared-scope warning raised when a name stays pinned past a profile window while other resolves succeed; the reader-side signal for a stale-view pin.
