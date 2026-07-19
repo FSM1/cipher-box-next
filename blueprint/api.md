@@ -6,7 +6,10 @@ Normative for the v2 build. Upstream inputs: the
 [record liveness](https://github.com/FSM1/cipher-box-next/issues/24),
 [sharing](https://github.com/FSM1/cipher-box-next/issues/25),
 [rotation](https://github.com/FSM1/cipher-box-next/issues/26), and
-[schema/envelope](https://github.com/FSM1/cipher-box-next/issues/27) designs.
+[schema/envelope](https://github.com/FSM1/cipher-box-next/issues/27) designs;
+client and contract strategy amended by the
+[component decomposition](https://github.com/FSM1/cipher-box-next/issues/28)
+(D5/D6).
 
 ## Doctrine
 
@@ -29,6 +32,7 @@ What left the API relative to v1 — with the design that removed it:
 | Vault init/export endpoints, `vaults` table | #27 — bootstrap is the derived vault pointer; export is client-side |
 | `pin_migrations` | BYO re-pin is a client-side sweep over its own pin set |
 | Download streaming through the API process | #34 — reads go to the trustless gateway |
+| Generated `api-client` packages and the `api:generate` codegen loop | #28 D5/D6 — one hand-written Rust client in the engine; contract enforced by live tests |
 
 ## Identity and auth
 
@@ -164,6 +168,24 @@ directory component (#25) and resolves crypto-review finding F-6 structurally:
   other accounts' rows. Nothing lingers server-side; keys still derive from the
   login secret, so a BYO self-hoster loses nothing they pin themselves.
 
+## Contract and clients
+
+Decomposition outcomes (#28 D5/D6), restated here as API surface:
+
+- **The spec is server-owned.** The NestJS API keeps emitting its OpenAPI
+  document from decorators, committed as a review/docs artifact. It is
+  documentation, not a build input.
+- **No generated clients, anywhere.** The sole first-party consumer is the
+  engine's single hand-written Rust client (engine.md); v1's generated
+  `api-client` packages, the `api:generate` loop, and the staged-client
+  pre-commit check all die with it.
+- **Enforcement is live, not lexical.** The contract is enforced by the live
+  contract-test suite — the engine's client exercised against a real API
+  instance in CI, the sdk-e2e descendant. Drift between server behavior and
+  client expectation fails a test run, not a grep or a codegen diff. Suite
+  shape and gating are owned by
+  [`blueprint/testing.md`](testing.md).
+
 ## Ops
 
 Health endpoint; Prometheus metrics; a **working** global throttler with
@@ -192,6 +214,8 @@ correctness dependency.
 
 - `movedTo` migration-window length and closure signal (drives when the old
   scope-root name is retired) → [#38](https://github.com/FSM1/cipher-box-next/issues/38).
-- Component decomposition of the API module boundaries (republisher
-  extractability, gateway deployment shape) →
-  [#28](https://github.com/FSM1/cipher-box-next/issues/28).
+- Module boundaries are fixed by
+  [#28](https://github.com/FSM1/cipher-box-next/issues/28) D3 (NestJS residual
+  surface + in-process, extractable republisher module); the gateway/someguy
+  deployment shape →
+  [deployment blueprint (#48)](https://github.com/FSM1/cipher-box-next/issues/48).
