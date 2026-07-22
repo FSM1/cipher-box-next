@@ -55,12 +55,13 @@ obligation.
   (the recipient key is already available on both sides).
 - **Conscious KAT break.** The mailbox-accept vector
   `relay-to-other-recipient-still-verifies` — which froze the old recipient-agnostic
-  property and was pre-marked in `kat_gen.rs` for removal when #712 lands — is deleted and
+  property and was pre-marked in `kat_gen.rs` for removal when FSM1/cipher-box#712
+  lands — is deleted and
   replaced by a mailbox-reject vector proving the relay now fails
   `identity-signature-invalid`.
 - **Blueprint update.** `blueprint/core.md` "Pointer payloads — Mailbox" (maintained in
-  [FSM1/cipher-box](https://github.com/FSM1/cipher-box)) is updated in the #712 code PR to
-  state the recipient-bound preimage.
+  [FSM1/cipher-box](https://github.com/FSM1/cipher-box)) is updated in the
+  FSM1/cipher-box#712 code PR to state the recipient-bound preimage.
 - **Domain separator unchanged.** `MAILBOX_SIG_DOMAIN` stays `cipherbox/v2/mailbox-sig`;
   the preimage array shape differs, so there is no cross-protocol collision.
 - **Pre-release, no migration.** v2 is mid-build and unreleased; no deployed mailbox
