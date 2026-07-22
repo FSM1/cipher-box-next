@@ -1,6 +1,6 @@
 # ADR 0001 — Bind the mailbox recipient into the sender-signature preimage
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#731 (in review)
 - **Date:** 2026-07-22
 - **Amends:** [#39](https://github.com/FSM1/cipher-box-next/issues/39) decision D9
   ("Mailbox payloads are sender-authenticated")
