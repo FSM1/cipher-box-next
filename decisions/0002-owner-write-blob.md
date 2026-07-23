@@ -1,6 +1,6 @@
 # ADR 0002 — Owner write blob for cold-start write-seed recovery
 
-- **Status:** Accepted — implementing in FSM1/cipher-box#791 (in progress)
+- **Status:** Accepted — implemented in FSM1/cipher-box#792 (merged)
 - **Date:** 2026-07-23
 - **Extends:** [#27](https://github.com/FSM1/cipher-box-next/issues/27) (v2 metadata
   schemas and crypto envelope) — adds a sealed structure to the grant section; conforms
