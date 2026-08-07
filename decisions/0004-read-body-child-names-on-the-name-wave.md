@@ -1,6 +1,6 @@
 # ADR 0004 — Read-body child names are rewritten by the write-plane name wave
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#1101 (merged)
 - **Date:** 2026-08-05
 - **Amends:** [#26](https://github.com/FSM1/cipher-box-next/issues/26) decision D3
   ("Write plane: parallel flat write-seed tree; write rotation = override + child-first
