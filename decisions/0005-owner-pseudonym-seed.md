@@ -1,6 +1,6 @@
 # ADR 0005 — The owner's writer pseudonym derives from a dedicated `owner-pseudonym-seed` edge
 
-- **Status:** Accepted — pending implementation in FSM1/cipher-box#1163
+- **Status:** Accepted — implemented in FSM1/cipher-box#1211 (merged)
 - **Date:** 2026-08-08
 - **Amends:** [#39](https://github.com/FSM1/cipher-box-next/issues/39) decision D2
   ("The primitive: committed writer pseudonyms") — makes concrete the trailing clause

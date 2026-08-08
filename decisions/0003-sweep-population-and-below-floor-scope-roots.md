@@ -1,6 +1,6 @@
 # ADR 0003 — Sweep population, and the below-floor descendant scope root
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#1200 (merged)
 - **Date:** 2026-08-05
 - **Amends:** [#38](https://github.com/FSM1/cipher-box-next/issues/38) decision D4
   ("Consult discipline: polled, not fallback") — extends the pointer consult to a
