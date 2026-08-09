@@ -1,6 +1,7 @@
 # ADR 0006 — Owner-local durable state is sealed under one kind-separated structure
 
-- **Status:** Accepted — pending implementation in FSM1/cipher-box#1214
+- **Status:** Accepted — the structure is implemented in FSM1/cipher-box#1215 (merged);
+  the contact-book and invite-record consumers are not yet migrated onto it
 - **Date:** 2026-08-08
 - **Supersedes:** the per-store sealed format established by
   `crates/core/src/seal/received_shares.rs`, which this decision folds into the
@@ -9,8 +10,10 @@
   why the migration is free before the staging cutover) and
   [#39](https://github.com/FSM1/cipher-box-next/issues/39) decision D8 (the separation
   discipline this decision applies to structures rather than KDF edges)
-- **Implemented by:** [FSM1/cipher-box#1214](https://github.com/FSM1/cipher-box/issues/1214),
-  consumed by [FSM1/cipher-box#1165](https://github.com/FSM1/cipher-box/issues/1165) and
+- **Implemented by:** [FSM1/cipher-box#1214](https://github.com/FSM1/cipher-box/issues/1214)
+  (closed), which also migrated `received_shares` onto the structure and deleted the
+  per-store module; still to be consumed by
+  [FSM1/cipher-box#1165](https://github.com/FSM1/cipher-box/issues/1165) and
   [FSM1/cipher-box#1207](https://github.com/FSM1/cipher-box/issues/1207)
 
 ## Context
