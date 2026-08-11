@@ -1,6 +1,7 @@
 # ADR 0008 — CipherBox issues the Core Kit identity token, and wallet login is first-class on web
 
-- **Status:** Proposed
+- **Status:** Accepted — not implemented. Decomposed into
+  [FSM1/cipher-box#1253](https://github.com/FSM1/cipher-box/issues/1253) and its sub-issues
 - **Date:** 2026-08-11
 - **Amends:** [#5](https://github.com/FSM1/cipher-box-next/issues/5) — the clause "SIWE wallet
   login stays as a secondary auth method", restated in `blueprint/api.md` "Identity and auth"
