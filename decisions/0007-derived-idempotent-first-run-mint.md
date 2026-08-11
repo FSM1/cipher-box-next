@@ -1,6 +1,6 @@
 # ADR 0007 — The first-run vault mint is derived and idempotent, not drawn and remembered
 
-- **Status:** Proposed — not implemented
+- **Status:** Accepted — not implemented
 - **Date:** 2026-08-09
 - **Amends:** [#39](https://github.com/FSM1/cipher-box-next/issues/39) decision D8
   (the frozen KDF edge catalog) — adds two edges, and narrows the catalog's
@@ -11,8 +11,10 @@
   [#28](https://github.com/FSM1/cipher-box-next/issues/28) decision D5 (the
   register-first, never-orphan publish ordering); and ADR 0005, whose edge shape
   this one copies
-- **Implemented by:** [FSM1/cipher-box#1221](https://github.com/FSM1/cipher-box/issues/1221)
-  and [FSM1/cipher-box#1222](https://github.com/FSM1/cipher-box/issues/1222)
+- **Implemented by:** [FSM1/cipher-box#1220](https://github.com/FSM1/cipher-box/issues/1220),
+  [FSM1/cipher-box#1221](https://github.com/FSM1/cipher-box/issues/1221) and
+  [FSM1/cipher-box#1222](https://github.com/FSM1/cipher-box/issues/1222) — all three open,
+  and this decision subsumes all three
 
 ## Context
 
