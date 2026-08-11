@@ -1,7 +1,9 @@
 # ADR 0006 — Owner-local durable state is sealed under one kind-separated structure
 
-- **Status:** Accepted — the structure is implemented in FSM1/cipher-box#1215 (merged);
-  the contact-book and invite-record consumers are not yet migrated onto it
+- **Status:** Implemented — the structure landed in FSM1/cipher-box#1215 (merged), and all
+  three stores sit on it after FSM1/cipher-box#1234 (merged): received shares, the contact
+  book, and invite records. The invite-record store has no production caller yet, because
+  `Command::CreateInviteLink` has no mint path (FSM1/cipher-box#1240)
 - **Date:** 2026-08-08
 - **Supersedes:** the per-store sealed format established by
   `crates/core/src/seal/received_shares.rs`, which this decision folds into the
@@ -12,9 +14,10 @@
   discipline this decision applies to structures rather than KDF edges)
 - **Implemented by:** [FSM1/cipher-box#1214](https://github.com/FSM1/cipher-box/issues/1214)
   (closed), which also migrated `received_shares` onto the structure and deleted the
-  per-store module; still to be consumed by
-  [FSM1/cipher-box#1165](https://github.com/FSM1/cipher-box/issues/1165) and
-  [FSM1/cipher-box#1207](https://github.com/FSM1/cipher-box/issues/1207)
+  per-store module. Consumed by
+  [FSM1/cipher-box#1207](https://github.com/FSM1/cipher-box/issues/1207) (closed — the
+  contact book) and [FSM1/cipher-box#1165](https://github.com/FSM1/cipher-box/issues/1165)
+  (open — the invite-record store is built and sealed, and waits on a mint path to call it)
 
 ## Context
 
