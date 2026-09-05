@@ -1,6 +1,6 @@
 # ADR 0012 — The drain carries the write wave forward, and is the second sanctioned reader below the read-epoch floor
 
-- **Status:** Proposed — the rule is already in the code, from
+- **Status:** Accepted — the rule is in the code, from
   [FSM1/cipher-box#1641](https://github.com/FSM1/cipher-box/pull/1641)
 - **Date:** 2026-09-01
 - **Relates to:**

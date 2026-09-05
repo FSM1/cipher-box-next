@@ -1,6 +1,6 @@
 # ADR 0011 — A quarantine release rests on the owner's doomed manifest, not on a live-namer proof
 
-- **Status:** Proposed — the rule is already in the code, from
+- **Status:** Accepted — the rule is in the code, from
   [FSM1/cipher-box#1570](https://github.com/FSM1/cipher-box/pull/1570) (merged, `cf6ca85ee`)
 - **Date:** 2026-08-31
 - **Relates to:** ADR 0010 item 7 (the hard-delete reclamation lands first and standalone),

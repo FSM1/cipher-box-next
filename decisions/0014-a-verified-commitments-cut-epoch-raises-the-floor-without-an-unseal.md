@@ -1,6 +1,6 @@
 # ADR 0014 — A verified commitment's cut epoch raises the cut-epoch floor without an unseal
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#1737 (merged)
 - **Date:** 2026-09-03
 - **Relates to:** the floor law of
   [#39](https://github.com/FSM1/cipher-box-next/issues/39) D4, which supersedes
@@ -9,8 +9,8 @@
   the grant-set commitment of [#34](https://github.com/FSM1/cipher-box-next/issues/34) D6, and
   [FSM1/cipher-box#1698](https://github.com/FSM1/cipher-box/pull/1698), which closed this replay
   for a recipient the owner did not cut
-- **Implemented by:** pending —
-  [FSM1/cipher-box#1697](https://github.com/FSM1/cipher-box/issues/1697), wave 18
+- **Implemented by:** [FSM1/cipher-box#1737](https://github.com/FSM1/cipher-box/pull/1737), which closed
+  [FSM1/cipher-box#1697](https://github.com/FSM1/cipher-box/issues/1697)
 
 ## Context
 

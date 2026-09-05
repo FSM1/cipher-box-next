@@ -1,8 +1,8 @@
 # ADR 0010 — The recycle bin is an owner-sealed index, and deletion cuts access by re-key
 
-- **Status:** Accepted — not implemented. Implementation tracked in
-  [FSM1/cipher-box#1399](https://github.com/FSM1/cipher-box/issues/1399) (engine) and
-  [FSM1/cipher-box#1400](https://github.com/FSM1/cipher-box/issues/1400) (web `/bin`)
+- **Status:** Accepted — implemented; all six sub-issues of
+  [FSM1/cipher-box#1399](https://github.com/FSM1/cipher-box/issues/1399) (engine) are closed and
+  [FSM1/cipher-box#1400](https://github.com/FSM1/cipher-box/issues/1400) (web `/bin`) is closed
 - **Date:** 2026-08-25
 - **Relates to:** ADR 0006 (the owner-local sealed store family),
   [FSM1/cipher-box#1434](https://github.com/FSM1/cipher-box/issues/1434) (delete reclaims

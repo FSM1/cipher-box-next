@@ -1,7 +1,8 @@
 # ADR 0009 — Device approval is a bound rendezvous, and the recovery phrase is the guaranteed path
 
-- **Status:** Accepted — not implemented. Decomposed into
-  [FSM1/cipher-box#1262](https://github.com/FSM1/cipher-box/issues/1262) and its sub-issues
+- **Status:** Accepted — implemented; the rendezvous, the factor seal and both device roles
+  landed, and [FSM1/cipher-box#1262](https://github.com/FSM1/cipher-box/issues/1262) stays open
+  for two web hardening items and the post-cutover desktop approver role
 - **Date:** 2026-08-11
 - **Relates to:** [#34](https://github.com/FSM1/cipher-box-next/issues/34) (the auth method
   set), ADR 0008 (which provider unlocks the Core Kit — this decision governs what happens
