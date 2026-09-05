@@ -1,6 +1,6 @@
 # ADR 0013 — A lapsed bin index record is rewritten, not refused
 
-- **Status:** Proposed — the rule is already in the code, from
+- **Status:** Accepted — the rule is in the code, from
   [FSM1/cipher-box#1658](https://github.com/FSM1/cipher-box/pull/1658)
 - **Date:** 2026-09-02
 - **Relates to:**

@@ -1,6 +1,6 @@
 # ADR 0015 — The device-approval factor seal is in-repo ECIES on secp256k1
 
-- **Status:** Proposed — the primitive is already in the code, from
+- **Status:** Accepted — the primitive is in the code, from
   [FSM1/cipher-box#1606](https://github.com/FSM1/cipher-box/pull/1606)
 - **Date:** 2026-09-03
 - **Relates to:**
@@ -13,8 +13,8 @@
   [FSM1/cipher-box#1692](https://github.com/FSM1/cipher-box/issues/1692) (the blueprint conflict
   and the incomplete reject family)
 - **Implemented by:** [FSM1/cipher-box#1606](https://github.com/FSM1/cipher-box/pull/1606)
-  (primitive); blueprint and KAT follow-up pending —
-  [FSM1/cipher-box#1692](https://github.com/FSM1/cipher-box/issues/1692), wave 18
+  (primitive) and [FSM1/cipher-box#1738](https://github.com/FSM1/cipher-box/pull/1738) (blueprint and
+  KAT follow-up, which closed [FSM1/cipher-box#1692](https://github.com/FSM1/cipher-box/issues/1692))
 
 ## Context
 
