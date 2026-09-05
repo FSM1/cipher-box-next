@@ -1,6 +1,6 @@
 # ADR 0016 — A durable sequence-floor key is a name label, not the name
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#1760 (merged)
 - **Date:** 2026-09-05
 - **Relates to:**
   [#39](https://github.com/FSM1/cipher-box-next/issues/39) D8 (the frozen KDF edge catalog),
