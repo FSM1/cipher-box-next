@@ -1,6 +1,6 @@
 # ADR 0018 — The PR gate is grouped by area, with an adapter leg per desktop platform
 
-- **Status:** Proposed
+- **Status:** Accepted — `blueprint/testing.md` reworded in FSM1/cipher-box#1776 (merged)
 - **Date:** 2026-09-06
 - **Relates to:**
   [FSM1/cipher-box#1775](https://github.com/FSM1/cipher-box/issues/1775) (the CI run time and

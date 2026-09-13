@@ -1,6 +1,6 @@
 # ADR 0017 — The epoch tag is a key-selection label, not an attestation
 
-- **Status:** Accepted — `CONTEXT.md` and `blueprint/engine.md` reworded in FSM1/cipher-box#1770 (merged); the `Envelope::epoch` doc line rides the next engine change to `crates/core/src/seal/`
+- **Status:** Accepted — `CONTEXT.md` and `blueprint/engine.md` reworded in FSM1/cipher-box#1770 (merged); the `Envelope::epoch` doc line landed in FSM1/cipher-box#1777 (merged)
 - **Date:** 2026-09-05
 - **Relates to:**
   [FSM1/cipher-box#1203](https://github.com/FSM1/cipher-box/issues/1203) (the design question
