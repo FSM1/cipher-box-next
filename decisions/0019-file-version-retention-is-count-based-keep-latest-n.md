@@ -1,6 +1,6 @@
 # ADR 0019 — File version retention is count-based keep-latest-N
 
-- **Status:** Proposed
+- **Status:** Accepted — `blueprint/engine.md` reworded in FSM1/cipher-box#1862 (merged)
 - **Date:** 2026-09-15
 - **Relates to:**
   [FSM1/cipher-box#1094](https://github.com/FSM1/cipher-box/issues/1094) (the engine half of
@@ -13,8 +13,8 @@
   [ADR 0012](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0012-the-drain-carries-the-write-wave-forward.md)
   (the op queue that must replay deterministically)
 - **Implemented by:** [FSM1/cipher-box#1862](https://github.com/FSM1/cipher-box/pull/1862),
-  which lands the engine rule, the restore and delete commands, and the blueprint reword after
-  acceptance.
+  which landed the engine rule, the restore and delete commands, and the blueprint reword. It
+  merged on 2026-09-16 as commit `63cb731da`.
 
 ## Context
 
