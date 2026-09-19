@@ -1,6 +1,6 @@
 # ADR 0021 — A read opens an epoch-lagged interior record, and is the third sanctioned reader below the read-epoch floor
 
-- **Status:** Proposed
+- **Status:** Accepted — `blueprint/engine.md` and `CONTEXT.md` reworded in FSM1/cipher-box#1915 (merged)
 - **Date:** 2026-09-19
 - **Relates to:**
   [FSM1/cipher-box#1911](https://github.com/FSM1/cipher-box/issues/1911) (an epoch-lagged file
