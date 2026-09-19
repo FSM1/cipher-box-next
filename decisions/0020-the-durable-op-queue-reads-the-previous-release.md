@@ -1,6 +1,6 @@
 # ADR 0020 — The durable op queue reads the previous release
 
-- **Status:** Proposed
+- **Status:** Accepted — `blueprint/engine.md` reworded in FSM1/cipher-box#1915 (open)
 - **Date:** 2026-09-19
 - **Relates to:**
   [#6](https://github.com/FSM1/cipher-box-next/issues/6) (the clean break, which covered the
