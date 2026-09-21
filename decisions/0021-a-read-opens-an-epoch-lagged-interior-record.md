@@ -112,7 +112,8 @@ correct for both.
   ratchet. An interior record carries no seed, no grant blob and no commitment.
 - **A relabelled record opens under no seed.** The read-body AAD binds the record's own epoch
   (ADR 0017), so the seed that the ratchet reaches for the claimed epoch does not open a body
-  that was sealed at a different epoch.
+  that was sealed at a different epoch. A body that a revoked writer seals fresh at the old
+  epoch, with the old seed, is not relabelled and does open; that is residual E2.
 - **A replay stays barred.** The replay bar applies (condition 3), and D4 raises it after each
   unseal.
 - **The revocation boundary does not move.** The arm does not raise or lower the scope's read-epoch
