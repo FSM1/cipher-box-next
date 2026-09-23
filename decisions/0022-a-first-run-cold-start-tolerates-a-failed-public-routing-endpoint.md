@@ -68,15 +68,18 @@ Two signals the engine already receives are not this fact:
 
 **D1 — The registry answers whether the caller's account holds a registration for a name.**
 The API gains one authenticated, rate-limited query on the registry surface. It takes an IPNS
-name and answers 204 when the caller's `name_inventory` holds that name, and 404 when it does
-not. It reads the caller's inventory only. A name registered by another account answers 404.
-The API inspects no record and learns nothing it did not already hold: the caller's registered
-names are the registry's own rows, and the name asked about is derived from the caller's login
-secret.
+name and answers 200 with a JSON body that carries one boolean, `registered`. The value is true
+when the caller's `name_inventory` holds that name, and false when it does not. It reads the
+caller's inventory only. A name registered by another account, and a malformed name, answer
+false with the same bytes. The route never answers 404: a 404 from an API build without the
+route, or from an intermediary, must not read as "not registered". The API inspects no record
+and learns nothing it did not already hold: the caller's registered names are the registry's own
+rows, and the name asked about is derived from the caller's login secret.
 
 **D2 — A first-run walk accepts a fan-out with a failed endpoint as "absent".** Before the
 pointer walk at index 0, the cold start asks D1 for the derived vault-pointer name. When the
-answer is 404, the walk and the mint's vacancy probe both use the first-run rule:
+answer is a 200 whose body says `registered: false`, the walk and the mint's vacancy probe both
+use the first-run rule:
 
 - The outcome is `Found` when one endpoint returns a record that verifies at the name. This
   arm does not change.
@@ -84,13 +87,14 @@ answer is 404, the walk and the mint's vacancy probe both use the first-run rule
   "no record", and every other endpoint failed.
 - The outcome is `Unavailable` when every endpoint failed.
 
-When the answer is 204, or the query fails for any reason, the walk and the probe keep the
-unanimity rule. The default is the current behaviour, so a registry outage changes nothing.
+When the answer is `registered: true`, or the query fails for any reason, the walk and the
+probe keep the unanimity rule. Any other status, a 404 included, and a body without the boolean
+are failures. The default is the current behaviour, so a registry outage changes nothing.
 
-**D3 — The registry answer permits availability only, never adoption.** A 404 lowers the bar
-for "no record exists". It does not adopt a record, it does not select a root, and it does not
-skip the verify or the adoption gate on a `Found`. A 204 or silence adds nothing to the
-current rule. The registry stays outside every trust decision on record bytes (`#24` D3).
+**D3 — The registry answer permits availability only, never adoption.** A "not registered"
+answer lowers the bar for "no record exists". It does not adopt a record, it does not select a
+root, and it does not skip the verify or the adoption gate on a `Found`. A "registered" answer
+or silence adds nothing to the current rule. The registry stays outside every trust decision on record bytes (`#24` D3).
 
 **D4 — The error class does not change.** `Unavailable` stays a retryable seam error on the
 cold-start path and a retryable `VaultUnprovisioned` event on the mint path. A fresh account
@@ -99,8 +103,8 @@ whose every endpoint fails still sees the seam error, and a retry still clears i
 ## Trust argument
 
 - **No earlier record of this account can be overwritten.** The registry row exists before any
-  publish (`#24` D6). A 404 therefore says that this account never sent a pointer record to the
-  transport. The mint that follows overwrites nothing this account owns.
+  publish (`#24` D6). A "not registered" answer therefore says that this account never sent a
+  pointer record to the transport. The mint that follows overwrites nothing this account owns.
 - **No other account's record can be overwritten.** The vault-pointer name derives from the
   login secret. A second account cannot hold the same name unless it holds the same secret.
 - **Another deployment holds no record at this name.** The identity is derived per verifier
@@ -108,8 +112,9 @@ whose every endpoint fails still sees the seam error, and a retry still clears i
 - **A hostile public endpoint gains nothing.** Under D2 a failure at a public endpoint is
   tolerated, and a "no record" answer from it was already accepted under the current rule. A
   record it returns still needs to verify at the name, as today.
-- **A hostile or lagging registry can only refuse.** A wrong 204 keeps the unanimity rule, which
-  is the current behaviour. A wrong 404 is the residual E1.
+- **A hostile or lagging registry can only refuse.** A wrong "registered" keeps the unanimity
+  rule, which is the current behaviour. A wrong "not registered" is the residual E1. A build
+  without the route answers 404, which is a failure, not an answer.
 
 ## Alternatives rejected
 
@@ -173,16 +178,18 @@ implicit account creation at first login already discloses.
 
 ## Gate
 
-- A fresh account, with the registry answering 404 for its pointer name, completes the cold
-  start and mints its vault when one routing endpoint answers "no record" and every other
+- A fresh account, with the registry answering "not registered" for its pointer name, completes
+  the cold start and mints its vault when one routing endpoint answers "no record" and every other
   endpoint fails.
 - The same account is refused with the retryable seam error when every endpoint fails.
-- An account whose registry answers 204 keeps the unanimity rule: one failed endpoint gives the
+- An account whose registry answers "registered" keeps the unanimity rule: one failed endpoint gives the
   retryable seam error, and no mint runs.
-- A registry query that fails for any reason keeps the unanimity rule.
+- A registry query that fails for any reason keeps the unanimity rule. A 404 and a body without
+  the boolean are failures.
 - A record returned by any endpoint on a first-run walk still passes the verify at the name and
   the adoption gate before it is adopted.
-- The API query answers 404 for a name registered by another account.
+- The API query answers "not registered" for a name registered by another account, with the
+  same bytes as for a name nobody registered.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.
