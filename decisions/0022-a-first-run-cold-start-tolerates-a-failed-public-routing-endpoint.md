@@ -1,6 +1,7 @@
 # ADR 0022 — A first-run cold start tolerates a failed public routing endpoint when the registry holds no vault-pointer name for the account
 
-- **Status:** Proposed
+- **Status:** Accepted — implemented in FSM1/cipher-box#1938, FSM1/cipher-box#1939 and
+  FSM1/cipher-box#1940; `blueprint/api.md`, `blueprint/engine.md` and `CONTEXT.md` reworded there
 - **Date:** 2026-09-23
 - **Relates to:**
   [ADR 0007](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0007-derived-idempotent-first-run-mint.md)
