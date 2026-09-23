@@ -112,7 +112,8 @@ correct for both.
   ratchet. An interior record carries no seed, no grant blob and no commitment.
 - **A relabelled record opens under no seed.** The read-body AAD binds the record's own epoch
   (ADR 0017), so the seed that the ratchet reaches for the claimed epoch does not open a body
-  that was sealed at a different epoch.
+  that was sealed at a different epoch. A body that a revoked writer seals fresh at the old
+  epoch, with the old seed, is not relabelled and does open; that is residual E2.
 - **A replay stays barred.** The replay bar applies (condition 3), and D4 raises it after each
   unseal.
 - **The revocation boundary does not move.** The arm does not raise or lower the scope's read-epoch
@@ -185,6 +186,28 @@ record.** A server can serve any earlier record of the node that the replay bar 
 sweep reads under the same bar and then publishes that record forward, so the read adds no
 exposure. D4 closes the window for every later read on that device. This is the same
 trust-on-first-use bound as the ordinary child adopt on a new device.
+
+**E2 — The forgery window now reaches readers.** During the name wave a revoked writer still
+holds the old seed for an old name that the wave does not yet rotate, and the writer can seal a
+plausible record at the old key-regression epoch there (`CONTEXT.md` "Forgery window", an
+accepted residual). The epoch tag attests nothing about who sealed the body (ADR 0017). Before
+this ADR, the adoption gate refused every record below the read-epoch floor at the reader, so a
+forged old-epoch record did not render, and only the sweep and the drain opened such a record.
+After this ADR, the lagging read opens a forged record on the same path that opens an honest
+lagging record. The forged bytes can therefore render as file content on a reader's device
+inside the window.
+
+What holds with it:
+
+- No new seed reaches the revoked writer. The arm walks backward from a scope root that the
+  device gated.
+- A scope root never reaches the arm. A record that carries a grant section is refused first,
+  as a trust violation.
+- The per-name sequence floor still bars a replay. D4 raises that floor after an AAD-confirmed
+  unseal.
+- The read moves no read-epoch floor.
+- The window closes when the name wave reaches the node and re-seals it at the new epoch under
+  a new name. FSM1/cipher-box#1923 is the open dependency of that bound.
 
 ## Gate
 
