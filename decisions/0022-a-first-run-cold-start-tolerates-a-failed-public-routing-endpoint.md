@@ -11,7 +11,8 @@
   set), the `blueprint/engine.md` "Cold start" and "Vault pointer" sections, the
   `blueprint/api.md` "Registry" section, and the `CONTEXT.md` "Vault pointer" and
   "Register-first" terms
-- **Implemented by:** the FSM1/cipher-box issues filed with this ADR, after acceptance.
+- **Implemented by:** FSM1/cipher-box#1935 (the registry query, D1) and FSM1/cipher-box#1936
+  (the first-run rule, D2 to D4), after acceptance.
 
 ## Context
 
