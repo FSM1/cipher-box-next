@@ -176,6 +176,18 @@ name the caller registered, and the name asked about is the caller's own derived
 The query adds one timing fact: the API learns when a first-run cold start happens, which the
 implicit account creation at first login already discloses.
 
+**E3 — The operator plus a blocked public endpoint can cause a second genesis mint.** One
+operator runs the registry and the CipherBox routing front. Under the current rule that operator
+alone cannot cause a mint over an existing pointer, because the public endpoint answers `Found`.
+Under D2 the operator can answer "not registered" and "no record" while the member's own network
+blocks every public endpoint, and the walk then reads the name as vacant. The member's network,
+not the operator, has to supply the block. What bounds the damage: the fan-out adopts the record
+with the highest sequence, and the wrong pointer carries sequence 1 while the honest pointer
+carries a higher one. As soon as the member reaches a public endpoint again, the honest pointer
+wins the walk and the earlier vault is back. Writes made in the window land under the wrong root
+and are orphaned. The operator is already trusted for availability, and this residual is
+accepted on the same terms as E1.
+
 ## Gate
 
 - A fresh account, with the registry answering "not registered" for its pointer name, completes
