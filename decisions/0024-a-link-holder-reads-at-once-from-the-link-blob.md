@@ -10,7 +10,7 @@
   [Design: sharing and grant delivery architecture (#25)](https://github.com/FSM1/cipher-box-next/issues/25)
   D6 (bearer links), ADR 0023 (conversion), ADR 0025 (revocation), the `blueprint/engine.md`
   "Grants and ledger" section ("Accept flow" and "Invites"), the `blueprint/web-client.md`
-  "Composition (apps/web)" section, and the `CONTEXT.md` terms **link holder**, **member** and
+  "Composition (apps/web)" section, and the `CONTEXT.md` terms **link holder**, **grantee** and
   **invite link**
 
 ## Context
@@ -25,7 +25,7 @@ about 290 engine lines, one optional field on the received-share bookmark, no ne
 store kind, and no KAT. Line numbers below that name `link_read.rs` are on that branch. The
 others come from the research reports (`main` at `d30509e48` or `ee147eac9`).
 
-Words: a **link holder** reads through the link keys and is not converted yet. A **member** is a
+Words: a **link holder** reads through the link keys and is not converted yet. A **grantee** is a
 converted person with a personal blob.
 
 ## Decision
@@ -39,7 +39,7 @@ invite secret. The field lives in the received-shares list, sealed under its own
 **D2 — The grantee drops the link keys when the personal blob lands.** The refresh pass prefers the
 personal tag. It reads the link tag only while no personal blob opens and `linkSecret` is held.
 The persist that records the first personal open also deletes `linkSecret`. The person is then a
-member.
+grantee.
 
 **D3 — A revoke of a person also cuts the link that admitted the person.** The owner finds that
 link through the via-link reference (ADR 0023 D2). Until the person's engine sees the personal
@@ -48,7 +48,7 @@ row alone leaves the person reading through the link. ADR 0025 D4 puts both rows
 
 **D4 — A write link reads now and writes after conversion.** The link holder reads with the read
 material only. The engine takes no write seed from a link blob. Conversion grants the permission
-that the link was created with, and the member gets a personal writer identity. An honest engine
+that the link was created with, and the grantee gets a personal writer identity. An honest engine
 never writes under the shared link identity.
 
 **D5 — The link path runs these trust checks.** At the join, in this order:
@@ -107,7 +107,7 @@ entry, and the received-shares seal already protects the bookmark.
    arm of D1, D2 and D5, and "Invites" states D3 and D4.
 3. **`blueprint/web-client.md` changes.** "Composition (apps/web)" gains the `/shared` row state
    of a link-held share.
-4. **`CONTEXT.md` changes.** It adds **link holder** and **member**, and it defines **invite
+4. **`CONTEXT.md` changes.** It adds **link holder** and **grantee**, and it defines **invite
    link** as a bearer link that reads at once and writes after conversion.
 5. **No seam, no KDF edge and no op record changes.**
 

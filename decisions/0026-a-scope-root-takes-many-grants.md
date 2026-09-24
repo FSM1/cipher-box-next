@@ -36,7 +36,7 @@ gains the append that conversion has today.
 **D3 — A folder can have any number of live links.** Each link has its own permission and its own
 lifetime.
 
-**D4 — A grant to an existing member is a permission change or nothing.** When the permission
+**D4 — A grant to an existing grantee is a permission change or nothing.** When the permission
 differs, the grant is a permission change (ADR 0025 D6). When it is the same, nothing changes, and
 the dialog says "already has access".
 
@@ -45,7 +45,7 @@ keeps the subfolder as a nested scope (`facade.rs:3631-3649`, `create.rs:1072-13
 folder inside a shared folder creates a nested scope under the enclosing one
 (`facade.rs:7866-7931`, `:8508-8510`).
 
-**D6 — A new member reads the whole history of the scope.** This is a fact of the design, not a
+**D6 — A new grantee reads the whole history of the scope.** This is a fact of the design, not a
 choice. A grant blob carries the current seed, and the history links walk it back to every
 earlier epoch of the scope. A person who is admitted again reads what was sealed while the person
 was out. Convergence stays a concern of a fresh mint only.
@@ -69,7 +69,7 @@ was out. Convergence stays a concern of a fresh mint only.
 **(a) Keep one grant per folder.** Rejected. The owner then must create a new folder to add a
 person, and the link-first flow adds people to one folder all the time.
 
-**(b) Hide the earlier history from a new member.** Rejected. The history links make the current
+**(b) Hide the earlier history from a new grantee.** Rejected. The history links make the current
 seed reach every earlier epoch, so a hidden history needs a separate scope. A folder is one scope root
 and cannot hold a second scope beside it.
 
@@ -81,11 +81,11 @@ republish of every descendant scope root, and by (b) it still does not hide hist
 1. **`blueprint/engine.md` changes.** In "Grants and ledger", "Grant creation" splits into a fresh
    mint, which keeps the current text, and an append, which states D1. The phrase "the new
    grantee needs no history" becomes "a fresh mint needs no history; an append gives the new
-   member the whole history of the scope (D6)".
+   grantee the whole history of the scope (D6)".
 2. **`blueprint/web-client.md` changes.** "Composition (apps/web)" shows the people table of an
    already shared folder with the "create link" row and the advanced contact-code path, and it
    drops the two retired refusals from its refusal copy.
-3. **`CONTEXT.md` changes.** "History link" gains "so a new member of a scope reads every earlier
+3. **`CONTEXT.md` changes.** "History link" gains "so a new grantee of a scope reads every earlier
    epoch". "Grant ledger" states that a scope root holds any number of rows, links and personal
    rows together. "Epoch-converged" says that a fresh mint, not an append, converges the subtree.
 4. **No wire format, no KDF edge and no op record changes.** The append uses the row mint that

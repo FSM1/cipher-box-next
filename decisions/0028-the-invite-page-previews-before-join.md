@@ -17,7 +17,7 @@
 The invite page signs a person in on the page, since
 [web: let a signed-out user sign in on the invite page and claim without a reload (#1943)](https://github.com/FSM1/cipher-box/issues/1943).
 The claim then needs a press. A claim at page mount would let any page that can navigate a
-signed-in tab spend an attacker's link under the member's identity
+signed-in tab spend an attacker's link under the grantee's identity
 (`apps/web/src/routes/InvitePage.tsx:19-23`). The person
 presses "join" with no view of what the link shares.
 
@@ -60,7 +60,7 @@ expired link (the deadline of ADR 0023 D2), a revoked link (no blob at the link 
 that this account already joined (a bookmark exists). An already joined link shows "open folder"
 and no "join".
 
-**D6 — "Join" posts the claim and starts the link read.** The claim carries the member name of
+**D6 — "Join" posts the claim and starts the link read.** The claim carries the grantee name of
 ADR 0027 D1. The engine then records the bookmark and reads as a link holder (ADR 0024 D1).
 
 **D7 — A preview before sign-in is deferred.** It needs a throwaway engine mode with an in-memory

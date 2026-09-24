@@ -31,9 +31,9 @@ stays **cut**. File and line citations come from the research reports (`main` at
 ## Decision
 
 **D1 — "Revoke link" cuts the link row.** Every link holder of that link loses access at once,
-because the rotation leaves no blob at the link tag. A member who came through the link keeps
+because the rotation leaves no blob at the link tag. A grantee who came through the link keeps
 access by default. The confirmation carries one checkbox, "also remove the N people who joined
-through this link", for a leaked link. The engine finds those members by their via-link
+through this link", for a leaked link. The engine finds those grantees by their via-link
 reference (ADR 0023 D2).
 
 **D2 — The owner's tick cuts expired links.** On each tick the owner engine cuts every link whose
@@ -44,24 +44,24 @@ through the link at it, so the UI says "expired" before the owner's tick runs.
 **D3 — Revoke runs on any owner device.** The engine reads the person's encryption key from the
 owner-signed ledger row in the folder record, after the row signature verifies
 (`crates/core/src/seal/write_body.rs:202-255`). It does not read the contact book. The contact
-book becomes a label cache (ADR 0027).
+book becomes a grantee name cache (ADR 0027).
 
 **D4 — One revoke is one cut.** Every row that one revoke removes leaves in one cut set, with one
 cut-epoch step and one rotation. The set is a person and the link that admitted the person
-(ADR 0024 D3), or a link and the members that the checkbox of D1 names.
+(ADR 0024 D3), or a link and the grantees that the checkbox of D1 names.
 
 **D5 — The removed side sees one of three messages.**
 
 | Message               | When the engine shows it                                           |
 | --------------------- | ------------------------------------------------------------------ |
-| The owner removed you | A member finds no blob at the personal tag                         |
+| The owner removed you | A grantee finds no blob at the personal tag                         |
 | The link expired      | The deadline of the link entry it last verified is not after `now` |
 | The link was revoked  | A link holder finds no blob at the link tag before the deadline    |
 
-The engine knows whether it read as a link holder or as a member from its bookmark
+The engine knows whether it read as a link holder or as a grantee from its bookmark
 (ADR 0024 D2).
 
-**D6 — The owner can change a member's permission.** The "can" column of the people table is a
+**D6 — The owner can change a grantee's permission.** The "can" column of the people table is a
 control with view and edit.
 
 - An upgrade mints write material for that person. When the folder is not a write scope yet, a
@@ -74,7 +74,7 @@ creates a new one. The link chips carry no permission control.
 
 ## Alternatives considered
 
-**(a) A link revoke also removes its members by default.** Rejected. Most link revokes end a link
+**(a) A link revoke also removes its grantees by default.** Rejected. Most link revokes end a link
 that did its job. The checkbox covers a leaked link.
 
 **(b) Keep the deadline in the sealed ledger.** Rejected. A read holder cannot see it, and a

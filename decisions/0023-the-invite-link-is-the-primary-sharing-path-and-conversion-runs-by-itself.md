@@ -47,8 +47,8 @@ and the decision #34 D6 stays.
   entry. The commitment signature covers both. The codec refuses a deadline on a `personal`
   entry, on decode and on encode.
 - The ledger row `expiresAt` retires. The commitment entry holds the one deadline.
-- A member's ledger row gains a via-link reference: the tag of the link row that admitted the
-  member. The field joins the row signature preimage. A write wave re-mints every row at a new
+- A grantee's ledger row gains a via-link reference: the tag of the link row that admitted the
+  grantee. The field joins the row signature preimage. A write wave re-mints every row at a new
   tag, so it re-maps the reference in the same pass.
 - No vault-synced owner structure is introduced. The invite-record store kind retires.
 - The invite secret is never stored on an owner device. A link shows only at its creation.
