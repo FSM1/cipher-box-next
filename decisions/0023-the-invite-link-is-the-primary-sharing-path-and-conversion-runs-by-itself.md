@@ -63,7 +63,8 @@ and the decision #34 D6 stays.
 5. The claimant contact code passes its binding verify at import.
 
 When a row for the claimant identity already exists in the scope, conversion is a no-op. Otherwise
-the device mints a personal row at the link's permission with the via-link reference, re-signs
+the device mints a personal row at the link's permission, with the via-link reference and, for a
+write link, the write material (ADR 0024 D4), re-signs
 the commitment, publishes the root, and posts the share pointer.
 
 **D4 — The trigger.** Any owner device converts on every tick, with one root publish per folder

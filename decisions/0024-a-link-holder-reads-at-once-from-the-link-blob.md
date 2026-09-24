@@ -46,10 +46,12 @@ link through the via-link reference (ADR 0023 D2). Until the person's engine see
 blob, it still holds the link keys, and the person may still hold the URL. A cut of the personal
 row alone leaves the person reading through the link. ADR 0025 D4 puts both rows in one cut.
 
-**D4 — A write link reads now and writes after conversion.** The link holder reads with the read
-material only. The engine takes no write seed from a link blob. Conversion grants the permission
-that the link was created with, and the grantee gets a personal writer identity. An honest engine
-never writes under the shared link identity.
+**D4 — A link blob carries read material only, whatever the link's permission.** The permission
+on the commitment entry is the intent that conversion honours. A write-link holder reads through the
+link blob and cannot write, because the blob holds no write seed. At conversion the owner engine
+mints the write material to the personal row, with a write-scope cut when the folder has none yet
+(ADR 0025 D6). The grantee then writes under a personal writer identity. Creating a write link runs
+no write-scope cut and no name wave.
 
 **D5 — The link path runs these trust checks.** At the join, in this order:
 
@@ -109,7 +111,8 @@ entry, and the received-shares seal already protects the bookmark.
    of a link-held share.
 4. **`CONTEXT.md` changes.** It adds **link holder** and **grantee**, and it defines **invite
    link** as a bearer link that reads at once and writes after conversion.
-5. **No seam, no KDF edge and no op record changes.**
+5. **No seam, no KDF edge and no op record changes.** A write-link mint costs the same as a
+   read-link mint, because the write material is minted at conversion (D4).
 
 ## Residuals
 
@@ -125,9 +128,6 @@ first. The forger's power is the same, and one step is gone.
 **E3 — One key per link.** The owner and the record plane cannot tell one holder from another. The
 owner cannot cut one unconverted holder alone: a link cut ends every unconverted holder at once.
 A leak of one holder's bookmark leaks the link.
-
-**E4 — A write-link blob carries the write seed.** A hostile holder can extract it and write under
-the link's pseudonym until the owner cuts the link. #25 D6 accepts this bearer property.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.
