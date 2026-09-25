@@ -155,6 +155,8 @@ A leak of one holder's bookmark leaks the link.
 `pointerReadKey`, and a recipient key is a global identifier. Any grantee can do this today; the
 link only widens who holds the key. The fragment carries `pointerReadKey`, so the URL alone
 unmasks the committed recipients with no blob open: the same bound, reached one step earlier.
+The owner accepted this leak as a residual on 2026-09-25, in place of a link-only mask key that
+would need a new commitment format.
 
 **E5 — A revoked or expired link still opens what the holder already has.** Every record that the
 holder cached or fetched while the link was live stays open to it. The content key rule
