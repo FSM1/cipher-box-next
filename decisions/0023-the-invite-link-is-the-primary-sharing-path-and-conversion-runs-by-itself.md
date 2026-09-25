@@ -1,6 +1,6 @@
 # ADR 0023 — The invite link is the primary sharing path, and conversion runs by itself
 
-- **Status:** Proposed
+- **Status:** Accepted on 2026-09-25; the `blueprint/*.md` and `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-25
 - **Supersedes:** the "owner converts" part of
   [Design: sharing and grant delivery architecture (#25)](https://github.com/FSM1/cipher-box-next/issues/25)

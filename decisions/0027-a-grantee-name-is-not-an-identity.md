@@ -1,6 +1,6 @@
 # ADR 0027 — A grantee name is not an identity
 
-- **Status:** Proposed
+- **Status:** Accepted on 2026-09-25; the `blueprint/*.md` and `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-25
 - **Relates to:**
   [wayfinder: sharing as a link-first flow with no approve step (#1945)](https://github.com/FSM1/cipher-box/issues/1945),
