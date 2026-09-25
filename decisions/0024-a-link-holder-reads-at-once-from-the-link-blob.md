@@ -8,7 +8,8 @@
   [sharing: what revocation means under the link-first model (#1949)](https://github.com/FSM1/cipher-box/issues/1949)
   (write links),
   [Design: sharing and grant delivery architecture (#25)](https://github.com/FSM1/cipher-box-next/issues/25)
-  D6 (bearer links), ADR 0023 (conversion), ADR 0025 (revocation), the `blueprint/engine.md`
+  D6 (bearer links), ADR 0020 D3 (the new build reads the previous release), ADR 0023
+  (conversion), ADR 0025 (revocation), the `blueprint/engine.md`
   "Grants and ledger" section ("Accept flow" and "Invites"), the `blueprint/web-client.md`
   "Composition (apps/web)" section, and the `CONTEXT.md` terms **link holder**, **grantee** and
   **invite link**
@@ -31,7 +32,9 @@ converted person with a personal blob.
 ## Decision
 
 **D1 — A link holder reads at once.** When the person joins, the engine posts the claim, then
-reads the scope through the link's grant blob. The read is best-effort, and the tick retries a
+reads the scope through the link's grant blob. The fragment carries the scope pointer name and the
+stable `pointerReadKey` beside the invite secret and the owner contact code (ADR 0023 D2). The read
+is best-effort, and the tick retries a
 failed read. The received-share bookmark gains one optional field, `linkSecret`, that holds the
 invite secret. The field lives in the received-shares list, sealed under its owner-local kind
 (ADR 0006). This reverses "nowhere durable" on the grantee side only.
@@ -46,24 +49,37 @@ link through the via-link reference (ADR 0023 D2). Until the person's engine see
 blob, it still holds the link keys, and the person may still hold the URL. A cut of the personal
 row alone leaves the person reading through the link. ADR 0025 D4 puts both rows in one cut.
 
-**D4 — A link blob carries read material only, whatever the link's permission.** The permission
-on the commitment entry is the intent that conversion honours. A write-link holder reads through the
-link blob and cannot write, because the blob holds no write seed. At conversion the owner engine
-mints the write material to the personal row, with a write-scope cut when the folder has none yet
-(ADR 0025 D6). The grantee then writes under a personal writer identity. Creating a write link runs
-no write-scope cut and no name wave.
+**D4 — A link is committed at `read`, whatever the permission it grants.** The link's commitment
+entry and its ledger row carry the permission `read`. The permission that conversion grants is a
+separate owner-signed field on the commitment entry, beside the kind and the deadline. The
+committed permission alone selects the blob material, at the mint and at every re-seal, by the
+owner or by any co-writer on any release. A build that ignores the kind still seals by that
+permission, so a link entry committed at `write` would hand the write seed to every link holder.
+
+A write-link holder reads through the link blob and cannot write, and holds no writer pseudonym
+authority. At conversion the owner engine mints the personal row at the conversion permission,
+with the write material and a write-scope cut when the folder has none yet (ADR 0025 D6). The
+grantee then writes under its own writer pseudonym. Creating a write link runs no write-scope cut
+and no name wave. An older owner build that ignores the new field converts at `read`, which fails
+safe.
 
 **D5 — The link path runs these trust checks.** At the join, in this order:
 
 1. The fragment decodes inside its 2048-byte bound (`invite.rs:462`).
 2. The owner contact code in the fragment passes its binding verify
    (`crates/engine/src/grants/contact.rs:70`).
-3. The record verifies at the fragment's scope root name, and the resolved name is that name.
+3. The link path resolves the scope pointer that the fragment names (ADR 0023 D2). It opens the
+   re-point object under the fragment's `pointerReadKey` and verifies the owner-identity signature
+   against the fragment's owner contact code. The record at `currentRootName` verifies at that
+   name, and the resolved name is that name. The old-name tombstone and the mailbox mirror stay
+   accelerators only (`CONTEXT.md` "Re-point object").
 4. The record does not name this vault's own root scope (`link_read.rs:43`).
 5. A blob sits at the link tag, which derives from the ephemeral encryption key, the owner
-   encryption key and the scope root name.
+   encryption key and the current scope root name. The holder derives the tag again at each new
+   `currentRootName`.
 6. The owner-signed commitment names that tag with the kind `link`, and its deadline is later
-   than the injected `now` (ADR 0023 D2). The permission comes from the commitment.
+   than the injected `now` (ADR 0023 D2). The holder reads at the committed permission, `read`
+   (D4).
 7. The blob opens under the ephemeral subkey, with the AAD bound to version, id, scope and epoch.
 8. The adoption gate runs in full against the fragment owner's identity, with floors keyed under
    the owner's contact label. The personal path uses the same namespace, so the switch in D2
@@ -101,16 +117,21 @@ re-derives both halves, and the claimant needs the ephemeral identity key to pos
 **(c) A separate owner-local kind for the secret.** Rejected. It adds a `crates/core` kind and a KAT
 entry, and the received-shares seal already protects the bookmark.
 
+**(d) Commit a write link at `write`, and keep its blob read-only by the kind.** Rejected by D4.
+Every re-sealer selects the blob material by the committed permission.
+
 ## Consequences
 
-1. **The received-shares stored list takes a version bump** (`STORED_LIST_V`) and a pinned byte
-   vector for `linkSecret`.
+1. **The received-shares stored list keeps version 2.** `linkSecret` is an optional bookmark key
+   with no version bump, because ADR 0020 D3 requires the new build to read the previous
+   release's list. Received-share bookmarks without the key stay valid.
 2. **`blueprint/engine.md` changes.** In "Grants and ledger", "Accept flow" gains the link-held
    arm of D1, D2 and D5, and "Invites" states D3 and D4.
 3. **`blueprint/web-client.md` changes.** "Composition (apps/web)" gains the `/shared` row state
    of a link-held share.
 4. **`CONTEXT.md` changes.** It adds **link holder** and **grantee**, and it defines **invite
-   link** as a bearer link that reads at once and writes after conversion.
+   link** as a bearer link that reads at once and writes after conversion. The "Grant-set
+   commitment" sentence names the conversion permission field of D4.
 5. **No seam, no KDF edge and no op record changes.** A write-link mint costs the same as a
    read-link mint, because the write material is minted at conversion (D4).
 
@@ -118,7 +139,8 @@ entry, and the received-shares seal already protects the bookmark.
 
 **E1 — The invite secret rests on the grantee device until conversion.** A thief of the
 received-shares list can read through the link and can post claims through it, until the owner
-cuts the link. D2 bounds the window to the time before the personal blob lands.
+cuts the link. D2 bounds the window to the time before the personal blob lands. When conversion
+refuses the claim, no personal blob lands, and the real bound is the link lifetime.
 
 **E2 — The owner identity on the link path comes from the unsigned fragment code.** The read
 anchors to whoever minted the link. A forged fragment can name the forger's scope and the forger's
@@ -128,6 +150,19 @@ first. The forger's power is the same, and one step is gone.
 **E3 — One key per link.** The owner and the record plane cannot tell one holder from another. The
 owner cannot cut one unconverted holder alone: a link cut ends every unconverted holder at once.
 A leak of one holder's bookmark leaks the link.
+
+**E4 — A link holder can unmask every committed recipient key.** The holder gets the scope
+`pointerReadKey`, and a recipient key is a global identifier. Any grantee can do this today; the
+link only widens who holds the key. The fragment carries `pointerReadKey`, so the URL alone
+unmasks the committed recipients with no blob open: the same bound, reached one step earlier.
+
+**E5 — A revoked or expired link still opens what the holder already has.** Every record that the
+holder cached or fetched while the link was live stays open to it. The content key rule
+(`CONTEXT.md` "Content key") never re-encrypts content bytes, so a cut protects the next version
+only, the same bound as a person revoke.
+
+**E6 — A write-link preview says "can edit" before the holder can write.** The holder writes only
+after an owner device converts the claim, and that can take days.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.

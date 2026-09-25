@@ -90,6 +90,14 @@ republish of every descendant scope root, and by (b) it still does not hide hist
    rows together. "Epoch-converged" says that a fresh mint, not an append, converges the subtree.
 4. **No wire format, no KDF edge and no op record changes.** The append uses the row mint that
    conversion already uses.
+5. **Conversion never changes an existing row.** A write link does not upgrade an existing read
+   grantee, and a read link does not downgrade an existing write grantee. D4 covers a direct
+   grant only; conversion is a no-op on a known identity (ADR 0023 D3).
+
+## Residuals
+
+**E1 — A conversion that hits the 1024-row cap is refused.** The op entry dead-letters and does
+not block the queue. The people list shows the refusal.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.

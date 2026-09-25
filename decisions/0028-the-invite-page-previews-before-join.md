@@ -37,12 +37,15 @@ citations come from the research reports and from the preview ticket.
 spends a link. "Join" is its own action, and it needs a press.
 
 **D2 — The preview shows four things.** It shows the folder name, the owner, the permission that
-the link gives, and a one-level listing of the folder's direct children with names, sizes and
-counts. The person cannot browse into a subfolder before joining.
+the link gives, and a one-level listing of the folder's direct children with names and kinds, from
+one read of the scope root. It shows no sizes and no counts. Each needs one resolve per child, and
+each resolve links to the session pseudonym before the person consents. The person cannot browse
+into a subfolder before joining.
 
 **D3 — The preview is a read-only mode of the link read.** It runs on the signed-in person's own
-engine. It runs every trust check of ADR 0024 D5 up to the open, and the adoption gate checks
-against the floors that the session already holds. In this mode the engine:
+engine. It runs every trust check of ADR 0024 D5 up to the open: it resolves the scope pointer
+first, then the root at `currentRootName`. The adoption gate checks against the floors that the
+session already holds. In this mode the engine:
 
 - posts no claim and no mailbox item;
 - persists nothing: no bookmark, no floor, no contact;
@@ -51,14 +54,15 @@ against the floors that the session already holds. In this mode the engine:
 
 Because the preview spends and stores nothing, it may run with no press.
 
-**D4 — The folder name and the owner name come from the fragment.** ADR 0027 D5 puts both there as
-courtesy text. The preview and the link-holder bookmark use them until the share pointer arrives
-at conversion.
+**D4 — The folder name and the owner name come from the fragment.** ADR 0027 D5 puts both there
+under an owner signature. The names show only when that signature verifies. The preview and the
+link-holder bookmark use them until the share pointer arrives at conversion.
 
 **D5 — A dead link shows its state after sign-in.** The preview reads the link, so it reports an
 expired link (the deadline of ADR 0023 D2), a revoked link (no blob at the link tag), and a link
 that this account already joined (a bookmark exists). An already joined link shows "open folder"
-and no "join".
+and no "join". The preview and the join follow the scope pointer path of ADR 0024 D5, so a moved
+scope root does not read as a revoked link.
 
 **D6 — "Join" posts the claim and starts the link read.** The claim carries the grantee name of
 ADR 0027 D1. The engine then records the bookmark and reads as a link holder (ADR 0024 D1).
@@ -75,7 +79,7 @@ repeats the mount-time attack of `InvitePage.tsx:19-23`.
 **(b) A preview before sign-in in this version.** Deferred by D7.
 
 **(c) The name and the owner only, with no listing.** Rejected. The person decides on the content,
-and a listing of direct children costs one read.
+and a listing of the names and kinds of direct children costs one read of the scope root.
 
 **(d) A browsable read-only view.** Rejected. Each subfolder costs one more read before the person
 consents, and the joined folder gives the same view one press later.
@@ -94,10 +98,16 @@ consents, and the joined folder gives the same view one press later.
 4. **`CONTEXT.md` changes.** "Adoption gate" states that a preview checks against the held floors
    and raises none. "Floor law" does not change, because the preview advances no floor.
 5. **A preview tells CipherBox infrastructure one fact.** The session resolves the scope root
-   through its routing with its accelerator token, so the operator learns that a signed-in account
-   read that name. The join discloses the same fact a moment later.
+   through its routing under the per-session accelerator pseudonym, so the operator learns that a
+   pseudonymous session read that name, not which account read it. The join discloses the same
+   fact a moment later.
 6. **A hidden page can make a signed-in tab show an attacker's preview.** Nothing is spent. The
-   unsigned fragment names of ADR 0024 E2 apply.
+   names show only under a verified owner signature (ADR 0027 D5).
+
+## Residuals
+
+**E1 — A write-link preview says "can edit" before the holder can write.** ADR 0024 E6 states the
+bound.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.
