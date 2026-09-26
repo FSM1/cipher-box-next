@@ -1,10 +1,11 @@
 # ADR 0041 — A rotation reads every floor again before it seals
 
-- **Status:** Proposed — retroactive for D2 to D8, which shipped in FSM1/cipher-box#1177,
+- **Status:** Accepted on 2026-09-26 — retroactive for D2 to D8, which shipped in FSM1/cipher-box#1177,
   FSM1/cipher-box#1200, FSM1/cipher-box#1285, FSM1/cipher-box#1307, FSM1/cipher-box#1542 and
   FSM1/cipher-box#1750; the blueprint carries D5 to D8 and a wider wording of D2. D1 is a new
   decision for the owner to accept: it extends D2 to D4 to the write-wave root arm, where no code
-  and no blueprint text reads the cut-epoch floor today
+  and no blueprint text reads the cut-epoch floor today; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#38](https://github.com/FSM1/cipher-box-next/issues/38) D2 (the scope pointer is the canonical

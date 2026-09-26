@@ -1,8 +1,9 @@
 # ADR 0035 — The staging origin trusts only Cloudflare and proves it with a zone certificate
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1461,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1461,
   FSM1/cipher-box#1504, FSM1/cipher-box#1526 and FSM1/cipher-box#1833, and the blueprint
-  carries it
+  carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:** [#48](https://github.com/FSM1/cipher-box-next/issues/48) (the deploy
   blueprint thread, the staging stack and the scheduled tier), the scope decision of

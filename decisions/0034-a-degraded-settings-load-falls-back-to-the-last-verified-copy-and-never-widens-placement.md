@@ -1,8 +1,9 @@
 # ADR 0034 — A degraded settings load falls back to the last verified copy and never widens placement
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#903,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#903,
   FSM1/cipher-box#934, FSM1/cipher-box#1046, FSM1/cipher-box#1149, FSM1/cipher-box#1676 and
-  FSM1/cipher-box#1939, and the blueprint carries it
+  FSM1/cipher-box#1939, and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Amends:**
   [ADR 0013](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0013-a-lapsed-bin-index-record-is-rewritten-not-refused.md)

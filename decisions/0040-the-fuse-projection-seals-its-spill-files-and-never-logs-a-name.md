@@ -1,9 +1,10 @@
 # ADR 0040 — The FUSE projection seals its spill files and never logs a name
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#736,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#736,
   FSM1/cipher-box#898, FSM1/cipher-box#1156, FSM1/cipher-box#1478, FSM1/cipher-box#1511 and
   FSM1/cipher-box#1577, and the blueprint carries it. This ADR also corrects three
-  `blueprint/desktop.md` sentences to match the code (Consequence 5)
+  `blueprint/desktop.md` sentences to match the code (Consequence 5); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:** [#32](https://github.com/FSM1/cipher-box-next/issues/32) (the macOS driver
   research: FUSE-T on the SMB backend, the push-invalidation callback, the hardware gates),

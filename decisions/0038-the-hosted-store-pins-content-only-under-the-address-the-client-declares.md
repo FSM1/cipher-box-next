@@ -1,7 +1,8 @@
 # ADR 0038 — The hosted store pins content only under the address the client declares
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#877 and
-  FSM1/cipher-box#912, and the blueprint carries it
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#877 and
+  FSM1/cipher-box#912, and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#34](https://github.com/FSM1/cipher-box-next/issues/34) D1 (the provider layer, and hosted

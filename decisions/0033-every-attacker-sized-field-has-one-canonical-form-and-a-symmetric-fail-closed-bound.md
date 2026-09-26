@@ -1,9 +1,10 @@
 # ADR 0033 — Every attacker-sized field has one canonical form and a symmetric fail-closed bound
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#789,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#789,
   FSM1/cipher-box#1049, FSM1/cipher-box#1098, FSM1/cipher-box#1285, FSM1/cipher-box#1286,
   FSM1/cipher-box#1299, FSM1/cipher-box#1368, FSM1/cipher-box#1454, FSM1/cipher-box#1496,
-  FSM1/cipher-box#1748 and FSM1/cipher-box#1834, and the blueprint carries it
+  FSM1/cipher-box#1748 and FSM1/cipher-box#1834, and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#27](https://github.com/FSM1/cipher-box-next/issues/27) "Pinned structure formats" (history

@@ -1,9 +1,10 @@
 # ADR 0029 — A record head block follows placement, and the hosted leg alone can fail an op
 
-- **Status:** Proposed — retroactive for D2 to D15, which shipped in FSM1/cipher-box#932,
+- **Status:** Accepted on 2026-09-26 — retroactive for D2 to D15, which shipped in FSM1/cipher-box#932,
   FSM1/cipher-box#1072, FSM1/cipher-box#1338 and FSM1/cipher-box#1585, and which the blueprint
   carries. D1 is an owner decision of 2026-09-26 that changes the shipped rule: the code and the
-  blueprint lag it (E1, FSM1/cipher-box#2006)
+  blueprint lag it (E1, FSM1/cipher-box#2006); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#34](https://github.com/FSM1/cipher-box-next/issues/34) D1 (the three modes, and registration

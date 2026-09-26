@@ -1,8 +1,9 @@
 # ADR 0039 — A device key registers to one account, and desktop only requests approval
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1273,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1273,
   FSM1/cipher-box#1312, FSM1/cipher-box#1527, FSM1/cipher-box#1577 and FSM1/cipher-box#1764, and
-  the blueprint carries it. The requester role of D4 did not ship (E1)
+  the blueprint carries it. The requester role of D4 did not ship (E1); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Amends:**
   [ADR 0009](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0009-device-approval-is-a-bound-rendezvous.md)

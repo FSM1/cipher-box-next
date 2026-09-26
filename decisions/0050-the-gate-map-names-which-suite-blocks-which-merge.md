@@ -1,10 +1,11 @@
 # ADR 0050 — The gate map names which suite blocks which merge
 
-- **Status:** Proposed — retroactive; the tier rules shipped in FSM1/cipher-box#960,
+- **Status:** Accepted on 2026-09-26 — retroactive; the tier rules shipped in FSM1/cipher-box#960,
   FSM1/cipher-box#1067, FSM1/cipher-box#1406, FSM1/cipher-box#1776, FSM1/cipher-box#1822,
   FSM1/cipher-box#1831 and FSM1/cipher-box#1833, and the `blueprint/testing.md` "CI gates"
   section carries them. Testing law 1 and `AGENTS.md` item 4 do not carry them yet
-  (consequences 3 and 4)
+  (consequences 3 and 4); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [ADR 0018](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0018-the-pr-gate-is-grouped-by-area-with-an-adapter-leg-per-desktop-platform.md)

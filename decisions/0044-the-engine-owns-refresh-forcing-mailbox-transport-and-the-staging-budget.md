@@ -1,10 +1,11 @@
 # ADR 0044 — The engine owns refresh forcing, mailbox transport and the staging budget
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#878,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#878,
   FSM1/cipher-box#1212, FSM1/cipher-box#1409 and FSM1/cipher-box#1501, and the blueprint carries
   it except two sentences that still place the staging budget in the sync timing profile
   (consequence 8), the unconditional cache reservation (consequence 9) and the desktop TTL-check
-  sentence (consequence 10)
+  sentence (consequence 10); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#33](https://github.com/FSM1/cipher-box-next/issues/33) D1 (the refresh hint source), D2

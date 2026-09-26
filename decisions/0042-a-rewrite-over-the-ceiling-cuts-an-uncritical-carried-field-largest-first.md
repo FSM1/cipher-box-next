@@ -1,8 +1,9 @@
 # ADR 0042 — A rewrite over the ceiling cuts an uncritical carried field largest first
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1343,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1343,
   FSM1/cipher-box#1454 and FSM1/cipher-box#1843, and the blueprint carries it. D8 is the one
-  exception: it answers a question that the blueprint records as open.
+  exception: it answers a question that the blueprint records as open.; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#27](https://github.com/FSM1/cipher-box-next/issues/27) D10 (tolerate and round-trip unknown
