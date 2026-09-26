@@ -60,8 +60,11 @@ link-holder bookmark use them until the share pointer arrives at conversion.
 
 **D5 — A dead link shows its state after sign-in.** The preview reads the link, so it reports an
 expired link (the deadline of ADR 0023 D2), a revoked link (no blob at the link tag), and a link
-that this account already joined (a bookmark exists). An already joined link shows "open folder"
-and no "join". The preview and the join follow the scope pointer path of ADR 0024 D5, so a moved
+that this account already joined (a bookmark this account still holds: a committed Personal entry
+with a blob at its tag, or a claim this account already posted through this link). An already
+joined link shows "open folder" and no "join". A person revoke leaves the bookmark at rest, so a
+bookmark alone does not prove a join: ADR 0025 E4 lets a cut person who holds another live link
+rejoin with no owner step. The preview and the join follow the scope pointer path of ADR 0024 D5, so a moved
 scope root does not read as a revoked link.
 
 **D6 — "Join" posts the claim and starts the link read.** The claim carries the grantee name of
