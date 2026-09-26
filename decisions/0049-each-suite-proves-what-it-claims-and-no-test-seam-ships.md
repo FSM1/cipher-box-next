@@ -1,8 +1,9 @@
 # ADR 0049 — Each suite proves what it claims, and no test seam ships
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#899,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#899,
   FSM1/cipher-box#960, FSM1/cipher-box#1078, FSM1/cipher-box#1120 and FSM1/cipher-box#1831, and
-  the blueprint carries it
+  the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#47](https://github.com/FSM1/cipher-box-next/issues/47) (the testing blueprint: the three

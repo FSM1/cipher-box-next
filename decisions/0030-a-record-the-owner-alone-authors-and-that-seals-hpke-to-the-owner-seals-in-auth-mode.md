@@ -1,9 +1,10 @@
 # ADR 0030 — A record the owner alone authors and that seals HPKE to the owner seals in auth mode
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#874,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#874,
   FSM1/cipher-box#878, FSM1/cipher-box#891, FSM1/cipher-box#903, FSM1/cipher-box#907,
   FSM1/cipher-box#1215, FSM1/cipher-box#1285 and FSM1/cipher-box#1521, and the blueprint
-  carries it
+  carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [ADR 0006](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0006-owner-local-sealed-store.md)

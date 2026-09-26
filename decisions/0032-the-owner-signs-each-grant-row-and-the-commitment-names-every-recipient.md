@@ -1,8 +1,9 @@
 # ADR 0032 — The owner signs each grant row, and the commitment names every recipient
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1120,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1120,
   FSM1/cipher-box#1344, FSM1/cipher-box#1368, FSM1/cipher-box#1594 and FSM1/cipher-box#1604,
-  and the blueprint carries it
+  and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#39](https://github.com/FSM1/cipher-box-next/issues/39) D2 (the commitment shape and the

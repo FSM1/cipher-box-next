@@ -1,8 +1,9 @@
 # ADR 0043 — A delete writes the bin entry before the unlink, and every bin op journals first
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1618,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1618,
   FSM1/cipher-box#1621, FSM1/cipher-box#1623, FSM1/cipher-box#1658 and FSM1/cipher-box#1747, and
-  the blueprint carries it
+  the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [ADR 0010](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0010-recycle-bin-is-an-owner-sealed-index.md)

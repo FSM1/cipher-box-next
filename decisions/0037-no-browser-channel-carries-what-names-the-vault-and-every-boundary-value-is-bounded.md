@@ -1,9 +1,10 @@
 # ADR 0037 — No browser channel carries what names the vault, and every boundary value is bounded
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#982,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#982,
   FSM1/cipher-box#1023, FSM1/cipher-box#1039, FSM1/cipher-box#1082, FSM1/cipher-box#1502 and
   FSM1/cipher-box#1533, and the blueprint carries it except the session-end notice of D2
-  (consequence 1)
+  (consequence 1); the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#45](https://github.com/FSM1/cipher-box-next/issues/45) (the web client blueprint thread; this

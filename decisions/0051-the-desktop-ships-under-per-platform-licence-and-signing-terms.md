@@ -1,7 +1,8 @@
 # ADR 0051 — The desktop ships under per-platform licence and signing terms
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#736,
-  FSM1/cipher-box#1550 and FSM1/cipher-box#1860, and the blueprint carries it
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#736,
+  FSM1/cipher-box#1550 and FSM1/cipher-box#1860, and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#32](https://github.com/FSM1/cipher-box-next/issues/32) (the macOS driver research: FUSE-T

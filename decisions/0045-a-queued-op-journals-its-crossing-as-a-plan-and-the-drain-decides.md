@@ -1,9 +1,10 @@
 # ADR 0045 — A queued op journals its crossing as a plan, and the drain decides
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#878,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#878,
   FSM1/cipher-box#897, FSM1/cipher-box#1123, FSM1/cipher-box#1679, FSM1/cipher-box#1747,
   FSM1/cipher-box#1765, FSM1/cipher-box#1828 and FSM1/cipher-box#2002, and the blueprint
-  carries it, except D5 and D6, where this ADR corrects the blueprint text
+  carries it, except D5 and D6, where this ADR corrects the blueprint text; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#33](https://github.com/FSM1/cipher-box-next/issues/33) D5 (merge is op-rebase; the per-op

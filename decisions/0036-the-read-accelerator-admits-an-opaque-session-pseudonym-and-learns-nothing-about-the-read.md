@@ -1,7 +1,8 @@
 # ADR 0036 — The read accelerator admits an opaque session pseudonym and learns nothing about the read
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#1449,
-  FSM1/cipher-box#1461 and FSM1/cipher-box#1504, and the blueprint carries it
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#1449,
+  FSM1/cipher-box#1461 and FSM1/cipher-box#1504, and the blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#34](https://github.com/FSM1/cipher-box-next/issues/34) D7 (the read path is an authed

@@ -1,8 +1,9 @@
 # ADR 0046 — The registry counts references per record and caps every batch at 1000
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#848,
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#848,
   FSM1/cipher-box#898, FSM1/cipher-box#923, FSM1/cipher-box#946 and FSM1/cipher-box#1578, and the
-  blueprint carries it
+  blueprint carries it; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Relates to:**
   [#24](https://github.com/FSM1/cipher-box-next/issues/24) D2 and D3 (the republisher walks a

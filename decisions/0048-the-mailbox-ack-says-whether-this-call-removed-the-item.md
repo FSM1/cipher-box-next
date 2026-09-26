@@ -1,8 +1,9 @@
 # ADR 0048 — The mailbox ack says whether this call removed the item
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#668 and
+- **Status:** Accepted on 2026-09-26 — retroactive; the rule shipped in FSM1/cipher-box#668 and
   FSM1/cipher-box#1981, and the blueprint carries it since FSM1/cipher-box#1962 and
-  FSM1/cipher-box#1981
+  FSM1/cipher-box#1981; the `blueprint/*.md` and
+  `CONTEXT.md` rewording in FSM1/cipher-box follows
 - **Date:** 2026-09-26
 - **Amends:**
   [ADR 0023](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0023-the-invite-link-is-the-primary-sharing-path-and-conversion-runs-by-itself.md)
