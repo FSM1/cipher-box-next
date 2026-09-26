@@ -1,7 +1,9 @@
-# ADR 0029 — Placement dispatches content versions only, and the hosted leg alone can fail an op
+# ADR 0029 — A record head block follows placement, and the hosted leg alone can fail an op
 
-- **Status:** Proposed — retroactive; the rule shipped in FSM1/cipher-box#932,
-  FSM1/cipher-box#1072, FSM1/cipher-box#1338 and FSM1/cipher-box#1585, and the blueprint carries it
+- **Status:** Proposed — retroactive for D2 to D15, which shipped in FSM1/cipher-box#932,
+  FSM1/cipher-box#1072, FSM1/cipher-box#1338 and FSM1/cipher-box#1585, and which the blueprint
+  carries. D1 is an owner decision of 2026-09-26 that changes the shipped rule: the code and the
+  blueprint lag it (E1, FSM1/cipher-box#2006)
 - **Date:** 2026-09-26
 - **Relates to:**
   [#34](https://github.com/FSM1/cipher-box-next/issues/34) D1 (the three modes, and registration
@@ -64,11 +66,18 @@ both legs" bullet cites #34 D1, which does not state the dual rules.
 
 ## Decision
 
-**D1 — Only content versions dispatch by placement.** A record head block always takes the
-hosted path, under every mode. The record-plane publish compares the address the ingress
-returns against the head block's own address, and the republisher re-PUTs from the hosted
-store. Placement decides where a version's blocks go, not where a record's head block goes.
-The rule landed with FSM1/cipher-box#1072; this ADR records it.
+**D1 — A record head block follows placement, the same as a content version.** Under `Hosted`
+the head block goes to the hosted store. Under `Dual` it goes to both legs, and D3 applies.
+Under `External` it goes to the member's own node only, and the API sees the registration and
+nothing else. On every leg the record-plane publish compares the address the leg returns against
+the head block's own address, and a mismatch publishes nothing. Placement decides where every
+block of a record goes, head and content alike. The owner decided this on 2026-09-26 during the
+review of this ADR. The shipped rule (FSM1/cipher-box#1072) sent every head block to the hosted
+path in every mode, which under `External` makes CipherBox Kubo the only provider of the head:
+a CipherBox outage then blocks every BYO write and darkens every BYO read that the local cache
+does not hold, and the vault settings record stops being server-free (`CONTEXT.md` "Vault
+settings record"). Under this rule a BYO read of a head depends on the member's node, as a BYO
+read of content already does. The code lags this rule (E1).
 
 **D2 — A pin-by-CID provider is only the second leg of a dual write.** The byte destinations a
 mode names are exactly what the provider's API supports. Kubo takes bytes under the caller's
@@ -183,9 +192,12 @@ The rule landed with FSM1/cipher-box#932; this ADR records it.
 
 ## Trust argument
 
-- **Every published record is backed by a hosted pin.** D1 and D3 keep the record head and, in
-  every mode but `External`, the content on the hosted store. Registration, quota and retire
-  keep their hosted-mode meaning, and the read accelerator serves what the record names.
+- **Every published record is backed by a pin on the leg its placement names.** D1 and D3 keep
+  the record head and the content together: on the hosted store under `Hosted`, on both legs
+  under `Dual`, on the member's node under `External`. Registration, quota and retire keep their
+  hosted-mode meaning. The read accelerator serves a hosted block from the hosted store and
+  fetches an `External` block from the network, head and content alike. A CipherBox outage does
+  not stop a BYO member from reading a vault whose node is up.
 - **A third party cannot stall the vault.** Under D3 an external refusal degrades one version's
   redundancy. It never holds the strict-FIFO drain, so no provider outside CipherBox can deny
   service to later mutations.
@@ -240,42 +252,53 @@ seal-and-stage wait. The resolution of FSM1/cipher-box#822 chose command time.
 **(h) Resolve the endpoint host to classify it.** The engine has no resolver, and a resolved
 verdict is a time-of-check to time-of-use gap. FSM1/cipher-box#932 chose the literal.
 
+**(i) Keep every record head block on the hosted ingress, and exempt heads from the `byo`
+refusal.** This is the shipped rule plus an API exemption. It puts CipherBox Kubo on the write
+path and on the read path of a BYO vault: the head has no other provider, so a CipherBox outage
+blocks every BYO write and every uncached BYO read, and the settings record is no longer
+server-free. The ingress also cannot tell a record head from a DAG root by codec, so the
+exemption needs a new signal on the wire. The owner rejected it on 2026-09-26 for D1.
+
 ## Consequences
 
-1. **`blueprint/engine.md` already carries D1 to D14.** The "Content plane" section states them
-   in the bullets "Dispatch is concrete over the Http seam, and only content versions
-   dispatch", "Dual runs both legs", "A partial-success report waits for the publish", "Durable
+1. **`blueprint/engine.md` "Content plane" is reworded for D1.** The bullet "Dispatch is
+   concrete over the Http seam, and only content versions dispatch" now reads: dispatch is
+   concrete over the Http seam, and every block of a record dispatches by placement, the head
+   block the same as a content version; on every leg the record-plane publish compares the
+   returned address against the head block's own. The clause "the republisher re-PUTs from the
+   hosted store" goes: the republisher re-PUTs the signed record from its own cache
+   (`apps/api/src/republisher/republisher.task.ts`) and never reads the head block.
+2. **`blueprint/engine.md` already carries D2 to D14.** The "Content plane" section states them
+   in the bullets "Dual runs both legs", "A partial-success report waits for the publish", "Durable
    upload progress is keyed by the destinations that took the bytes", "The destination identity
    is the provider, not the credential", "The placement is re-decided while the session runs",
    "A publish refuses settings no reader could place under", "The quota pre-flight gates this
    write's byte path, not the account", and "The staging store is the local-first leg". No text
    change is needed.
-2. **`blueprint/engine.md` already carries D15** in the "BYO endpoint policy" bullet. No text
+3. **`blueprint/engine.md` already carries D15** in the "BYO endpoint policy" bullet. No text
    change is needed.
-3. **`blueprint/engine.md` "Vault settings load" already carries the policy D12 and D13 apply.** The
+4. **`blueprint/engine.md` "Vault settings load" already carries the policy D12 and D13 apply.** The
    bullets "A degraded load never widens placement" and "The one arm that still authorises a write
    is named for what it assumes" state the restricting-direction reading of `advisory`.
-4. **`CONTEXT.md` needs no change.** The "Vault settings record" and "Advisory pin row" terms are
-   consistent with D11.
-5. **#34 D1 is amended.** #34 D1 says "Hosted uploads ride the API (quota-gated, → Kubo); BYO
-   bytes bypass it". Under D1 of this ADR, a record head block of a BYO account rides the hosted
-   ingress too. #34 D1 now reads: hosted uploads ride the API; BYO content bytes bypass it; a
-   record head block rides the hosted ingress in every mode (D1). The unamended sentence is the
-   source of the API's 409 for a `byo=true` account, which E1 describes. The three modes and
-   registration on every mode do not change.
-6. **`blueprint/engine.md` section "Content plane" gains the citation (ADR 0029)** on the "Dual
+5. **`CONTEXT.md` needs no change.** The "Vault settings record" term ("it resolves at cold
+   start with no CipherBox infrastructure") holds under D1, and "Advisory pin row" is consistent
+   with D11.
+6. **#34 D1 is confirmed, and this ADR cites it.** #34 D1 says "Hosted uploads ride the API
+   (quota-gated, → Kubo); BYO bytes bypass it". Under D1 of this ADR that sentence covers the
+   record head block too. The three modes and registration on every mode do not change.
+7. **`blueprint/engine.md` section "Content plane" gains the citation (ADR 0029)** on the "Dual
    runs both legs" bullet, in place of the #34 D1 citation there, which does not state the dual
    rules. The "Pin-provider layer" bullet keeps its #34 D1 citation.
-7. **`blueprint/engine.md` section "Content plane" gains the citation (ADR 0029)** on the "BYO
+8. **`blueprint/engine.md` section "Content plane" gains the citation (ADR 0029)** on the "BYO
    endpoint policy" bullet, beside its cipher-box issue reference.
 
 ## Residuals
 
-**E1 — Under `External`, D1 and D11 together lock the device out of every publish.** D1 sends
-every record head block to the hosted ingress in every mode (`publish_record` in
-`crates/engine/src/net/record_publish.rs:233`). Every record publish takes this path: the drain,
-the settings save, the bin index, rotation and provisioning. D11 sets `byo=true` for an
-`External` account, and the engine's reconcile runs in the command-time pre-flight of a file
+**E1 — The code lags D1, and under `External` the device is locked out of every publish.** The
+shipped code sends every record head block to the hosted ingress in every mode
+(`publish_record` in `crates/engine/src/net/record_publish.rs:233`). Every record publish takes
+this path: the drain, the settings save, the bin index, rotation and provisioning. D11 sets
+`byo=true` for an `External` account, and the engine's reconcile runs in the command-time pre-flight of a file
 write, before the drain (`hosted_quota_pre_flight` in `crates/engine/src/facade.rs:10843`). The
 hosted ingress refuses every upload from a `byo=true` account with a 409
 (`apps/api/src/content/content.service.ts:245`), with no exemption. The member sees this, in
@@ -299,15 +322,12 @@ No suite catches this. The engine testkit's fake ingress does not model the 409
 (`crates/engine/src/testkit/account.rs`), and the contract suite proves the 409 for a content
 leaf only (`quota_is_hosted_authoritative_and_byo_advisory` in `crates/contract/tests/contract.rs`).
 
-A fix cannot simply let the ingress admit a record head block for a `byo=true` account. The
-ingress cannot tell a record head from a DAG root by codec: both are `dag-cbor`
-(`blueprint/api.md` "Content plane"). The fix needs a discriminator, or D1 changes. The
+D1 resolves this: under `External` the head block goes to the member's node, and nothing from
+that account reaches the hosted ingress. Only the Kubo dialect takes a raw block, and `External`
+with a pin-by-CID provider is already refused (D2), so the rule needs no new dialect. The
 resolution of FSM1/cipher-box#822, section 7, decided an order for mode changes: `byo` first
 when the member leaves `External`, last when the member enters it. Neither the blueprint nor the
-code carries that order, and it does not prevent this defect.
-
-This ADR records D1 and D11 as the blueprint states them. The defect is open as
-FSM1/cipher-box#2006.
+code carries that order. The fix is FSM1/cipher-box#2006.
 
 **E2 — The code holds the mirror budget per drain pass, not across the op's passes.**
 `upload_blocks` in `crates/engine/src/sync/drain.rs` builds a new `MirrorLeg` (three attempts,
@@ -354,11 +374,12 @@ The engine suites below run in the Rust area of the PR gate (the workspace tests
 `crates/engine/tests/write_plane.rs` and `vs` is `crates/engine/tests/vault_settings.rs`.
 
 - **D1:** `a_pin_store_that_reports_another_address_publishes_nothing`
-  (`crates/engine/src/net/record_publish.rs`); `wp`
-  `an_external_write_places_every_block_on_the_members_node_and_none_on_the_hosted_store` and
-  `a_hold_under_an_external_placement_clears_without_a_quota_probe` (a folder record head under
-  `External` takes the hosted ingress). No suite runs that upload against the real ingress for a
-  `byo=true` account (E1). This is a finding.
+  (`crates/engine/src/net/record_publish.rs`) proves the address compare on the hosted leg.
+  `wp` `an_external_write_places_every_block_on_the_members_node_and_none_on_the_hosted_store`
+  proves it for content only: the folder record head under `External` still takes the hosted
+  ingress there. No test proves that a head block lands on the member's node under `External`,
+  or on both legs under `Dual`, and no suite runs the head upload against the real ingress for a
+  `byo=true` account (E1). This is a finding; FSM1/cipher-box#2006 adds the tests.
 - **D2:** `kubo_puts_the_block_under_its_own_codec_and_the_frozen_hash`,
   `a_dag_root_is_put_under_the_dag_cbor_codec`,
   `a_kubo_node_that_stored_the_block_elsewhere_is_a_failure` and
