@@ -383,16 +383,20 @@ adopted a post-cut record takes the first commitment it is served. Two owner dev
 one scope at the same time sign different sets at the same cut epoch, and each device accepts
 the other's set. The publish plane settles that race.
 
-**E4 — Two owner publish paths sign a commitment with no cut-floor read.** The cut-epoch bar
+**E4 — One owner publish path signs a commitment with no cut-floor read.** The cut-epoch bar
 of D6 depends on the reader's own floor, not on the bytes, so `net/author.rs::check_scope_root`
 has no copy of it. The owner re-seal publish does read the floor: under the write-epoch lease,
 `RootPublish::check_publishable` in `net/rotation.rs` refuses release-active when the re-sealed
 commitment's `cutEpoch` is below the durable cut-epoch floor (FSM1/cipher-box#1750, 2026-09-05).
-Two paths sign a commitment and read no cut-epoch floor: the root arm of the write wave
-(`WriteWaveNet` in `net/rotation.rs`, which reads only the read-epoch and write-epoch floors), and
-the grant-edit publishes of append, invite and conversion (`grants/invite.rs::check_publishable`,
-which reads no floor). The rule that a rotation reads every floor again before it seals belongs
-to the rotation-and-floors ADR (candidate 13 of the ADR audit), and this ADR does not state it.
+One path signs a commitment and reads no cut-epoch floor: the root arm of the write wave
+(`WriteWaveNet::publish_moved` in `net/rotation.rs`), which reads only the read-epoch and
+write-epoch floors before `reseal_root` re-signs the carried commitment. The grant-edit publishes
+(append, invite, permission change, rename and conversion) go through
+`OwnerRotationNet::publish_scope_root` and `RootPublish::run`, so they reach the same cut-epoch
+check. `grants/invite.rs::check_publishable` is an earlier structural check (the grant-set
+ceiling, repeated tags, and ledger-commitment agreement), not a floor check. The rule that a
+rotation reads every floor again before it seals belongs to ADR 0041, and this ADR does not state
+it. The gap is FSM1/cipher-box#2016.
 
 **E5 — The revocation floor keys name the recipient in the clear.** `revocation_floor_key`,
 `grant_floor_key`, `revocation_cut_epoch_key` and `cleared_floor_key` in
