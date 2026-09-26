@@ -146,6 +146,9 @@ model this product exists to avoid.
    pending list, all under a scoped pre-reconstruction token. The v1 shape is a reasonable
    starting point for the endpoints; the DTOs change, because D4 adds signatures and D3 adds
    nothing to the wire but changes what the client must display.
+   Amended by ADR 0039 D2 and D3 on 2026-09-26: the API gains a rendezvous surface and two tables.
+   `device_approvals` holds the rendezvous rows, and `account_devices` is the registry that D4
+   needs; the endpoint list does not change.
 3. **Expired and collected rows must be deleted.** v1 never garbage-collected either, so
    sealed factor material accumulated indefinitely. A row's lifetime ends at collection or
    expiry, whichever comes first.
@@ -155,6 +158,9 @@ model this product exists to avoid.
 5. **Desktop is in scope or it is explicitly out.** v1 shipped a UI that could not work and a
    settings string saying MFA was web-only. Whichever v2 chooses, the affordance and the
    truth must agree — the same rule ADR 0008 applies to the wallet method.
+   Amended by ADR 0039 D4 on 2026-09-26: desktop is in scope as a requester only, enrollment is
+   web-only, and the copy says where factors and approval are managed. The approver role stays open
+   on FSM1/cipher-box#1514, a sub-issue of FSM1/cipher-box#1262.
 6. **This needs a cross-device test that actually runs.** Every v1 case for this flow was
    skipped for want of two authenticated devices, which is precisely how a guaranteed-400 bug
    reached a verified status. A harness that drives two sessions is part of the work, not a

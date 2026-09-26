@@ -90,6 +90,9 @@ host-agnostic package that both hosts import. Credential collection is injected 
 
 The boundary is drawn at **credential collection**, one step earlier than v1 drew it. Everything
 after that point converged on one path in v1 and drifted only because it was written twice.
+Amended by ADR 0039 D6 on 2026-09-26: D3 now reads "one orchestration and one set of auth surfaces,
+with host-specific credential collection". The sequencing stays in `packages/login`, the React
+surfaces live in `packages/auth-ui`, and the boundary at credential collection does not move.
 
 ### What this decision does not change
 

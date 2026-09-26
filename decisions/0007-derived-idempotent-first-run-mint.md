@@ -93,6 +93,10 @@ under an owner-derived key; a withheld or lying answer can only push the run int
 the indeterminate branch, which refuses. This is the discipline
 `require_vacant_vault_pointer` already follows, applied to the other end of the
 mint.
+Amended by ADR 0031 D7 on 2026-09-26: the first-run terms of this ADR also cover the bin index
+genesis publish, which is not part of the mint's success condition. The mint completes on its
+re-openable re-point, the bin index publish follows it, and a later session start tries that publish
+again only on a device that holds no mark.
 
 **D3 — the root publish confirms by adopt.** A record at the derived root name
 that this session's read key opens and the adoption gate admits completes the root
@@ -103,6 +107,10 @@ finds one publishes no second record and uploads no second head block.
 the head upload and the record PUT leaves an unreferenced pinned block whose CID no
 later run can name. That is the shape every publish already has, handled by the
 existing orphan-head path; it gains no new mechanism here.
+Amended by ADR 0047 D3 on 2026-09-26: the orphan-head path reaches only a failure that a live pass
+observes, because the pending set lives for one session. So the one-block leak of a process that
+dies between the head upload and the record PUT stays leaked, and no path retires it; this ADR still
+accepts that leak.
 
 Together these retire the orphan as a category. A crashed mint's root record is
 not an orphan — it is this account's own genesis root, re-derived and adopted by

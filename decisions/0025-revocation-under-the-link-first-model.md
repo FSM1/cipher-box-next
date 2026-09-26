@@ -55,6 +55,10 @@ the link at it, so the UI says "expired" before the owner's sweep runs.
 owner-signed ledger row in the folder record, after the row signature verifies
 (`crates/core/src/seal/write_body.rs:202-255`). It does not read the contact book. The contact
 book becomes a grantee name cache (ADR 0027).
+Amended by ADR 0032 D2 on 2026-09-26: the engine finds the person's rows through the owner-attested
+ledger row, and names the recipient key from the commitment entry. For a row whose label the owner
+did not attest, the engine matches the encryption subkey that this device's contact book binds to
+the identity against the commitment entry.
 
 The revocation floor and the grant floor are device-local and key on the recipient key. So after
 device B cuts P and device A converts P again, B withholds P's blob at each of its re-keys, P sees
@@ -116,6 +120,8 @@ descendant scope root for each row, and it steps the cut epoch more than once fo
 4. **`CONTEXT.md` changes.** "Cut epoch" gains "one step per owner revoke, whatever the number of
    rows". "Write-scope cut" gains the upgrade of D6. "Revocation floor" does not change.
 5. **The contact book stops being a trust input.** Revoke and conversion read only the record.
+   Amended by ADR 0032 D2 on 2026-09-26: the contact book is no trust input for a grant, and it is a
+   match input only for a revoke of a row whose label the owner did not attest.
 
 ## Residuals
 

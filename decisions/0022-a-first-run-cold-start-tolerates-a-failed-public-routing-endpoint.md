@@ -91,11 +91,20 @@ use the first-run rule:
 When the answer is `registered: true`, or the query fails for any reason, the walk and the
 probe keep the unanimity rule. Any other status, a 404 included, and a body without the boolean
 are failures. The default is the current behaviour, so a registry outage changes nothing.
+Amended by
+[ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+D10 on 2026-09-26: the first sentence of D2 now reads "Before the pointer walk at index 0, on a
+device that holds no vault-pointer index floor, the cold start asks D1 for the derived vault-pointer
+name."
 
 **D3 — The registry answer permits availability only, never adoption.** A "not registered"
 answer lowers the bar for "no record exists". It does not adopt a record, it does not select a
 root, and it does not skip the verify or the adoption gate on a `Found`. A "registered" answer
 or silence adds nothing to the current rule. The registry stays outside every trust decision on record bytes (`#24` D3).
+Amended by
+[ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+D11 on 2026-09-26: the second sentence of D3 now reads "It does not adopt a record, it does not
+select a root, it does not skip the verify or the adoption gate on a `Found`, and it is not stored."
 
 **D4 — The error class does not change.** `Unavailable` stays a retryable seam error on the
 cold-start path and a retryable `VaultUnprovisioned` event on the mint path. A fresh account
