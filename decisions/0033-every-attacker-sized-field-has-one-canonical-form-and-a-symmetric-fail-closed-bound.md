@@ -208,9 +208,8 @@ refuses malformed input on the read side. On the produce side, a size that anoth
 must not stop an owner's publish for good, and most of all the rotation that revokes that party. The
 produce side therefore follows four rules:
 
-- It truncates what it may cut, and never refuses for it. An encode within a limit measures its
-  candidate and cuts against the lower of that limit and the block ceiling before it mints
-  anything, so only what the uncuttable fields alone overflow is refused.
+- It truncates a carried set and never refuses for it. The cut target and the refusal clause
+  are ADR 0042 D1.
 - It charges a field that it replaces at the field's maximum (D7), so a body at the bound still
   encodes after the swap.
 - It drops an over-long or unwalkable carried read-plane history link, with every older link,
