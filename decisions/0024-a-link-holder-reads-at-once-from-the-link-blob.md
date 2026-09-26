@@ -168,3 +168,14 @@ after an owner device converts the claim, and that can take days.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The `blueprint/`
 copies in this repository are the as-charted archive and are not edited by this ADR.
+
+## Amendment 2026-09-25
+
+This amendment replaces the bookmark sentence of D1. The received-share bookmark gains three
+optional keys. `linkSecret` holds the invite secret. `scopePointerName` holds the scope pointer
+name from the fragment. `linkDeadline` holds the deadline of the link entry that the holder last
+verified. The holder cannot derive the scope pointer name from the secret, because the owner
+selects that routing name and the fragment carries it. The "expired" removal state needs the
+stored deadline, so that a link cut at its deadline reads "expired" and not "revoked". The three
+keys come as one set, and the D2 persist deletes all three. Consequence 1 holds for all three
+keys: the stored list keeps version 2, and a bookmark without them loads unchanged.
