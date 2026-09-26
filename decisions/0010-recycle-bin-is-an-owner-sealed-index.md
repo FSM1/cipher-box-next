@@ -52,6 +52,10 @@ when the bin happened to be loaded, so it was advisory.
 1. **The bin is one owner-sealed, vault-level index.** It takes the sealed-store shape of ADR
    0006, but it is published and CAS-guarded like the vault settings record — not the
    per-device staging store — so two devices cannot lose each other's writes.
+   Amended by ADR 0031 D1 on 2026-09-26: the bin is one owner-sealed, vault-level index, sealed
+   symmetrically under `bin-index-seal-key`, and published and CAS-guarded like the vault settings
+   record, so that two devices cannot lose each other's writes. The sealed-store shape of ADR 0006
+   no longer applies.
 2. **One `Delete` command; the facade branches on the owner's retention setting.** The
    setting lives in `VaultSettings`. Retention `0`: every delete is a hard delete, with
    reclamation. Retention `> 0`: deletes are soft. Hosts and the web client never decide —
@@ -61,9 +65,18 @@ when the bin happened to be loaded, so it was advisory.
    under a fresh key held only in the bin index, before the unlink. That is the access cut;
    rotation cannot provide it. Unshared scopes skip the re-key and keep the cheap unlink. The
    conditional-delete rebase rule is unchanged — nothing relinks into a tree location.
+   Amended by ADR 0031 D4 on 2026-09-26: the soft delete re-keys the subtree under the key that the
+   `bin-held-key` edge derives from the login secret, the node id and `deletedAt`, and the bin entry
+   carries that key; "a fresh key held only in the bin index" no longer applies. Amended by ADR 0043
+   D5 on 2026-09-26: every soft delete, from a shared or an unshared scope, re-keys the whole doomed
+   subtree under the bin-held key before the unlink, and unshared scopes no longer skip the re-key.
 4. **Restore into a shared parent re-seals under the destination scope's current epoch**, so
    the current grantee set reads it again by scope membership. An individual restore mints a
    fresh key and is shared manually.
+   Amended by ADR 0043 D9 on 2026-09-26: a restore into a destination in the entry's own scope
+   re-seals the subtree at that scope's current epoch, whether the scope is shared or not, and an
+   individual restore no longer mints a fresh key. A destination in another scope stays open
+   (ADR 0043 E2).
 5. **A grantee's delete is captured owner-side.** The owner's engine observes the unlink
    (carried-set diff on the poll tick) and adopts the orphan into the bin, re-keying at
    adoption — without the re-key, the deleting grantee keeps the node key.
@@ -81,6 +94,8 @@ when the bin happened to be loaded, so it was advisory.
 
 - A soft delete from a shared scope costs one re-seal and republish per node of the subtree —
   the price of an access cut that key regression cannot undo.
+  Amended by ADR 0043 D5 on 2026-09-26: every soft delete costs one re-seal and republish per node
+  of the subtree, from a shared or an unshared scope.
 - Restore requires a new op: materialize an unlinked node into a tree location. No current op
   addresses a node absent from the snapshot.
 - The index write path is CAS-guarded; v1's whole-list rewrite is the named anti-pattern.

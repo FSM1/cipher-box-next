@@ -66,6 +66,10 @@ wire format changes.
 **D3 — A retained version stays referenced by its own entry.** The version's content root rides
 the node's live read-body versions list. Orphan GC keeps its one rule, referenced-equals-kept,
 and needs no new machinery, no reference count, and no retention-aware pass.
+Amended by
+[ADR 0047](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0047-a-failed-or-abandoned-publish-retires-exactly-what-it-charged.md)
+D5 on 2026-09-26: "no new machinery" means no machinery beyond the re-registration that the publish
+path already runs, and ADR 0047 D5 is its mechanism.
 
 **D4 — A delete of a version removes its entry and makes its root collectable.** The current
 version is untouched, the record republishes, and the dropped blocks go to the retire ledger.

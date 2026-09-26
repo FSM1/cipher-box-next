@@ -105,6 +105,11 @@ lose the claim. The claimant engine posts its claim again when no personal blob 
 window, and reads as a link holder meanwhile (ADR 0024). Every re-post of one claim reuses the
 idempotency key of its first post, so the mailbox keeps one live item for it. The re-posts back
 off exponentially and stop at the deadline.
+Amended by
+[ADR 0048](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0048-the-mailbox-ack-says-whether-this-call-removed-the-item.md)
+D1 and D3 on 2026-09-26: the re-posts share one key, so the mailbox holds at most one live item for
+the claim at a time. After an ack removes that item, the next re-post under the same key creates a
+new item.
 
 **D7 — The owner signal.** The people list updates from the record on every owner device. The
 device that converted shows one transient notice, "X joined <folder>". Nothing persists.

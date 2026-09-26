@@ -80,6 +80,8 @@ possibly-stale index entry.
 scope root encountered during enumeration but missing from its parent's index — is
 detectable from the walk alone. It runs on the enumeration result and is flagged there,
 independent of whether any node is being re-sealed.
+Amended by ADR 0041 D5 on 2026-09-26: the self-heal is a walk-time repair, and it writes only a name
+that the walk resolved current.
 
 ### Rejected alternatives
 

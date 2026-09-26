@@ -27,6 +27,10 @@ the session that holds the login secret republishes the record on the spot. It a
 replay on a device that holds no sequence floor to compare against, and the record it would
 otherwise adopt carries a bearer credential — a bring-your-own access token that the engine then
 presents to a third party.
+Amended by
+[ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+D9 on 2026-09-26: "republishes the record on the spot" now reads "the renewal set keeps a live
+account's settings record inside its EOL".
 
 On the bin plane the same rule is a permanent stall. Nothing on this plane re-signs the record
 except the rewrite that a refusal blocks. The keyless re-PUT of the API carries the record's own
@@ -45,6 +49,10 @@ owner. The trade that justifies the settings carve-out therefore reads different
   the rewrite that the index feeds stamps a fresh end-of-life.
 - Every other stage of the floor law is unchanged. The sequence floor, the mint-versus-adopt
   revision pair, and the three-rung degradation ladder all hold.
+  Amended by
+  [ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+  D2, D5 and D6 on 2026-09-26: the mint-versus-adopt revision pair is ADR 0034 D6, and the
+  three-rung degradation ladder is ADR 0034 D2 and D5.
 - The load enrols the record it read in the session's renewal set. A live account therefore never
   reaches the lapse, because the session keeps the name alive without publishing anything.
 - The load enrols only a record that cleared the whole floor law, and only a record for a name
@@ -68,10 +76,18 @@ settings record alone.
 **D3 — The load enrols the record in the session's renewal set.** This is the first bound on the
 residual. An account that opens a session inside the ninety-day window never lapses, whether or
 not it publishes.
+Amended by
+[ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+D9 on 2026-09-26: this rule applies to both owner record planes, the settings record and the bin
+index.
 
 **D4 — The renewal set takes only a floor-passing record for a name this device already holds a
 floor for.** This is the second bound. The renewal re-signs at `floor + 1` and promotes what it
 is given, so it must never receive bytes that no load gated.
+Amended by
+[ADR 0034](https://github.com/FSM1/cipher-box-next/blob/main/decisions/0034-a-degraded-settings-load-falls-back-to-the-last-verified-copy-and-never-widens-placement.md)
+D9 on 2026-09-26: this rule applies to both owner record planes, the settings record and the bin
+index.
 
 **D5 — The end-of-life on a self-signed record is a liveness signal, not a trust signal.** What
 bounds a replay on this plane is the per-name sequence floor. The floor is monotone, so a record

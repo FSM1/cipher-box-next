@@ -98,10 +98,15 @@ through, so the jobs behind them can change freely.
    areas and the standalone contexts, names the adapter leg per desktop platform, and states that
    branch protection requires the result contexts. A new paragraph under the tier table states the
    test-profile build rule. The main-gate and dispatch rows do not change.
+   Amended by ADR 0050 D6 to D8 on 2026-09-26: the main-gate and dispatch rows stayed the same under
+   this ADR alone, and ADR 0050 D6 to D8 record the later changes to those rows.
 2. **Branch protection switches once**, at the merge of FSM1/cipher-box#1776, from the 24 job names
    to the result contexts. Every open PR re-runs CI after the switch.
 3. **A suite that lands later joins an area** and reports through that area's result context. Law
    1 is met by the area's result job, so no suite needs its own protection entry.
+   Amended by ADR 0050 D1 and D2 on 2026-09-26: a suite that lands later and asserts the behavior of
+   a change joins an area and reports through its result context. A suite of the ADR 0050 D2 class
+   joins no area and is not a required context.
 4. **The expected PR run is near 10 minutes**, with the critical path at the repo lint plus the
    engine simulation tests.
 

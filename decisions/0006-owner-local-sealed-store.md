@@ -55,6 +55,10 @@ authority that conversion trusts.
 **One generic owner-local sealed structure in `crates/core`, with the store kind bound into
 the HPKE `info`.** Every owner-local durable store uses it: invite records, the contact
 book, and received shares.
+Amended by ADR 0030 D11 on 2026-09-26: every owner-local durable store and every per-owner staging
+surface seals on the owner-local structure, in auth mode to the owner, each under its own kind. The
+kind list is not closed: at the time of the blueprint it is `received-shares`, `contact-book`,
+`retire-ledger` and `doomed-journal`, and the manifest holds three more (ADR 0030 E8).
 
 `received_shares` migrates onto it and its per-store module is deleted.
 
@@ -77,6 +81,9 @@ temporarily: it is created and consumed by the same slice.
 structures are network-shaped: they carry sender authentication and recipient binding that
 owner-local state has no use for, and their versions are governed by wire compatibility this
 state does not participate in.
+Amended by ADR 0030 D11 on 2026-09-26: the op-record and grant-blob structures are network-shaped,
+and the reason not to reuse them is their framing and their versioning, which wire compatibility
+governs and owner-local state does not share.
 
 ## Consequences
 
@@ -97,6 +104,8 @@ state does not participate in.
 5. **The seam count does not change.** These stores are carried at the layer that owns them
    over the `StagingStore` seam every host already provides, on the `RetireLedger`
    precedent. This decision is about the bytes, not about where they live.
+   Amended by ADR 0030 D11 on 2026-09-26: the retire ledger is not a precedent for the seam only,
+   because its values now seal on the owner-local structure too.
 
 The blueprint and glossary are maintained in the `FSM1/cipher-box` repository. The
 `blueprint/` copies in this repository are the as-charted archive and are not edited by this
